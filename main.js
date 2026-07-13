@@ -53,7 +53,6 @@
     });
     latestMeta.textContent = `Episode ${latest.number} · ${date}${latest.duration ? ' · ' + latest.duration : ''}`;
   }
-  if (latestDesc) latestDesc.textContent = latest.description || '';
   if (latestPlay) {
     latestPlay.href = latest.url || '#';
     latestPlay.textContent = latest.url ? 'Listen Now' : 'Coming Soon';
@@ -63,10 +62,10 @@
     }
   }
 
-  // Render episode list (skip the latest since it's featured above)
+  // Render episode list (include the latest so it appears under Recent Episodes too)
   const listContainer = document.getElementById('episode-list');
   if (listContainer) {
-    const recentEpisodes = episodes.slice(1, 6); // show next 5
+    const recentEpisodes = episodes.slice(0, 6); // show latest + next 5
 
     if (recentEpisodes.length === 0) {
       listContainer.innerHTML = '<p class="empty-state">More episodes coming soon.</p>';

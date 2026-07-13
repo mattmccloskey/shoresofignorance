@@ -146,10 +146,15 @@ a {
 }
 
 .episode-description {
-  font-size: 1.125rem;
+  font-size: 1.1rem;
   color: var(--text-muted);
+  line-height: 1.65;
   max-width: 600px;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
+}
+
+.episode-description + .episode-description {
+  margin-top: 1.25rem;
 }
 
 .hero-actions {

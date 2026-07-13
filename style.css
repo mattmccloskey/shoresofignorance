@@ -10,7 +10,7 @@
   --border: rgba(255, 255, 255, 0.1);
   --radius: 12px;
   --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-display: 'Cardo', Georgia, serif;
   --font-body: 'Inter', system-ui, sans-serif;
   --max-width: 1100px;
 }

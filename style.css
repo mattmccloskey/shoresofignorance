@@ -146,6 +146,12 @@ a {
   max-width: 600px;
   margin-bottom: 1.25rem;
 }
+.episode-description a {
+  color: #ffffff;
+}
+.episode-description a:hover {
+  text-decoration: underline;
+}
 
 .episode-description + .episode-description {
   margin-top: 1.25rem;

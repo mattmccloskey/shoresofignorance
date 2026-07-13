@@ -443,6 +443,9 @@ section {
     gap: 1rem;
     font-size: 0.8rem;
   }
+  .site-nav .latest {
+    display: none;
+  }
 
   .logo img {
     height: 40px;

@@ -1,2 +1,2 @@
-# shoresofignorance
+# Shores Of Ignorance
 Weekly Podcast

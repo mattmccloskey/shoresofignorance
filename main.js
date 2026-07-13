@@ -62,12 +62,11 @@
   const latest = episodes[0];
 
   // Render latest episode hero
-  const latestTitle = document.getElementById('latest-title');
+  const latestEyebrow = document.getElementById('latest-eyebrow');
   const latestMeta = document.getElementById('latest-meta');
-  const latestDesc = document.getElementById('latest-description');
   const latestPlay = document.getElementById('latest-play');
 
-  if (latestTitle) latestTitle.textContent = latest.title;
+  if (latestEyebrow) latestEyebrow.textContent = `Latest Episode: ${latest.title}`;
   if (latestMeta) {
     const date = new Date(latest.date).toLocaleDateString('en-US', {
       month: 'long',

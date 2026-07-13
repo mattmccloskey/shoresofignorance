@@ -69,7 +69,7 @@ a {
 }
 
 .logo img {
-  height: 40px;
+  height: 44px;
   width: auto;
 }
 
@@ -91,43 +91,33 @@ a {
 
 /* Hero */
 .hero {
-  position: relative;
-  min-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  overflow: hidden;
+  padding: 6rem 0 5rem;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-elevated) 100%);
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.hero-copy {
+  order: 1;
 }
 
 .hero-media {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+  order: 2;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
 }
 
 .hero-media img {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: cover;
-  object-position: center top;
-}
-
-.hero-media::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(11, 12, 16, 0.3) 0%,
-    rgba(11, 12, 16, 0.75) 60%,
-    rgba(11, 12, 16, 0.98) 100%
-  );
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  padding: 4rem 0 5rem;
 }
 
 .eyebrow {
@@ -142,10 +132,10 @@ a {
 
 .episode-title {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
   font-weight: 600;
-  line-height: 1.05;
-  max-width: 900px;
+  line-height: 1.08;
+  max-width: 700px;
   margin-bottom: 1rem;
 }
 
@@ -158,7 +148,7 @@ a {
 .episode-description {
   font-size: 1.125rem;
   color: var(--text-muted);
-  max-width: 640px;
+  max-width: 600px;
   margin-bottom: 2rem;
 }
 
@@ -318,7 +308,7 @@ section {
 
 .about-badge img {
   width: 100%;
-  max-width: 320px;
+  max-width: 420px;
   margin: 0 auto;
 }
 
@@ -358,6 +348,37 @@ section {
   background: rgba(255, 255, 255, 0.08);
 }
 
+/* Find Us */
+.find-us {
+  background-color: var(--bg);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+
+.find-us-inner h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.find-us-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 1.5rem;
+}
+
+.find-us-links a {
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.find-us-links a:hover {
+  color: var(--accent);
+}
+
 /* Footer */
 .site-footer {
   padding: 2.5rem 0;
@@ -389,11 +410,24 @@ section {
   }
 
   .logo img {
-    height: 32px;
+    height: 40px;
   }
 
-  .hero-content {
-    padding: 2.5rem 0 3rem;
+  .hero {
+    padding: 4rem 0 3rem;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .hero-copy {
+    order: 2;
+  }
+
+  .hero-media {
+    order: 1;
   }
 
   .episode-card {

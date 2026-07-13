@@ -57,6 +57,10 @@
   if (latestPlay) {
     latestPlay.href = latest.url || '#';
     latestPlay.textContent = latest.url ? 'Listen Now' : 'Coming Soon';
+    if (latest.url && latest.url !== '#') {
+      latestPlay.target = '_blank';
+      latestPlay.rel = 'noopener';
+    }
   }
 
   // Render episode list (skip the latest since it's featured above)

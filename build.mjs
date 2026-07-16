@@ -158,11 +158,11 @@ async function main() {
   // Update episode list
   const cardsHtml = recent.map(renderCard).join('\n');
   html = html.replace(
-    /(<div class="episode-list" id="episode-list">)[\s\S]*?(<\/div>)/,
-    `$1\n${cardsHtml}\n        $2`
+    /<!-- EPISODES_START -->[\s\S]*?<!-- EPISODES_END -->/,
+    `<!-- EPISODES_START -->\n${cardsHtml}\n        <!-- EPISODES_END -->`
   );
 
-  // Remove stale comment
+  // Remove stale comment if present
   html = html.replace(/\s*<!-- Episodes rendered from episodes\.json -->/, '');
 
   await writeFile(INDEX_PATH, html, 'utf8');

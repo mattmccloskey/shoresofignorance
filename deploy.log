@@ -1,0 +1,9 @@
+# Shores of Ignorance Deploy Log
+#
+# Updating this file and pushing to main triggers a Cloudflare deploy.
+# The build step fetches the latest RSS feed and bakes the newest episode
+# into index.html automatically.
+#
+# Updated by Gilkeith each week after the episode goes live.
+
+2026-07-16T01:42:48Z — Ep 287: The Cartesian Crisis live and deployed.

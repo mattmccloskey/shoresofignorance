@@ -662,6 +662,12 @@ section {
   gap: 0.75rem;
 }
 
+.listen-row .btn {
+  flex: 1 1 140px;
+  text-align: center;
+  justify-content: center;
+}
+
 .btn-apple {
   background: linear-gradient(135deg, #fc3c44, #a32a2f);
   color: #fff;

@@ -433,6 +433,214 @@ section {
   color: var(--text);
 }
 
+/* Episode Detail Pages */
+.episode-detail {
+  padding: 3rem 0 5rem;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-elevated) 100%);
+  min-height: 100vh;
+}
+
+.detail-header {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.back-link {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: var(--accent);
+}
+
+.detail-header .episode-title {
+  margin-bottom: 0.75rem;
+}
+
+.detail-header .episode-meta {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.detail-header .btn-primary {
+  margin-top: 0.5rem;
+}
+
+.detail-section {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-section:last-child {
+  border-bottom: none;
+}
+
+.detail-section h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: var(--text);
+}
+
+.detail-description {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 720px;
+}
+
+.detail-description p {
+  margin-bottom: 1rem;
+}
+
+.detail-description p:last-child {
+  margin-bottom: 0;
+}
+
+.quote-list {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.detail-quote {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 0;
+  transition: border-color 0.2s ease;
+}
+
+.detail-quote:hover {
+  border-color: rgba(167, 139, 250, 0.35);
+}
+
+.detail-quote p {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  font-style: italic;
+}
+
+.detail-quote cite {
+  font-style: normal;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.resource-list,
+.fact-list,
+.topic-list {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+}
+
+.resource-list li,
+.fact-list li,
+.topic-list li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  transition: border-color 0.2s ease;
+}
+
+.resource-list li:hover,
+.fact-list li:hover,
+.topic-list li:hover {
+  border-color: rgba(167, 139, 250, 0.35);
+}
+
+.resource-list a {
+  color: var(--accent);
+  word-break: break-all;
+}
+
+.resource-list a:hover {
+  text-decoration: underline;
+}
+
+.fact-claim {
+  color: var(--text);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.fact-status {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.status-verified {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+}
+
+.status-disputed {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.1);
+}
+
+.status-neutral {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+}
+
+.topic-list li strong {
+  display: block;
+  color: var(--text);
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.topic-list li p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Episode card actions */
+.episode-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.episode-card h3 a {
+  color: inherit;
+  transition: color 0.2s ease;
+}
+
+.episode-card h3 a:hover {
+  color: var(--accent);
+}
+
+.btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .header-inner {

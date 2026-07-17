@@ -4,6 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node build.mjs"
+    "sync": "node sync-episodes.mjs",
+    "build": "node build.mjs",
+    "verify": "node verify-build.mjs"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3"
   }
 }

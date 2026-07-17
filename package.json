@@ -6,5 +6,8 @@
   "scripts": {
     "sync": "node sync-episodes.mjs",
     "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3"
   }
 }

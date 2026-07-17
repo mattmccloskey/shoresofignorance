@@ -263,10 +263,13 @@ async function main() {
     `$1${htmlEscape(playHref)}$2${playText}$3`
   );
   if (latest.url && latest.url !== '#') {
-    html = html.replace(
-      /(<a href="[^"]*" class="btn btn-primary" id="latest-play")/,
-      `$1 target="_blank" rel="noopener"`
-    );
+    // Only add target/rel if not already present
+    if (!html.includes('id="latest-play" target="_blank"')) {
+      html = html.replace(
+        /(<a href="[^"]*" class="btn btn-primary" id="latest-play")/,
+        `$1 target="_blank" rel="noopener"`
+      );
+    }
   }
 
   const cardsHtml = recent.map(renderCard).join('\n');

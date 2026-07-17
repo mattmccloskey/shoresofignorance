@@ -69,7 +69,7 @@ function renderDetailPage(ep) {
   const date = formatDate(ep.date);
   const meta = `Episode ${ep.number} · ${date}${ep.durationMinutes ? ' · ' + ep.durationMinutes + ' min' : ''}`;
   const ogDesc = truncate((ep.fullDescription || ep.description).replace(/<[^>]+>/g, ' '), 160);
-  const ogImage = `./og-image.png`;
+  const ogImage = `https://shoresofignorance.com/episodes/${ep.number}/og-image.png`;
 
   let quotesHtml = '';
   if (ep.keyQuotes && ep.keyQuotes.length > 0) {

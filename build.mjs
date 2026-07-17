@@ -194,7 +194,15 @@ ${topicItems}
           <p class="eyebrow">Episode ${ep.number}</p>
           <h1 class="episode-title">${htmlEscape(ep.title)}</h1>
           <p class="episode-meta">${htmlEscape(meta)}</p>
-          ${ep.url ? `<a href="${htmlEscape(ep.url)}" class="btn btn-primary" target="_blank" rel="noopener">🎧 Listen on SoundCloud</a>` : ''}
+          ${ep.url || ep.appleUrl || ep.spotifyUrl ? `
+          <div class="listen-buttons">
+            <span class="listen-label">Episode available on</span>
+            <div class="listen-row">
+              ${ep.url ? `<a href="${htmlEscape(ep.url)}" class="btn btn-primary" target="_blank" rel="noopener">🎧 SoundCloud</a>` : ''}
+              ${ep.appleUrl ? `<a href="${htmlEscape(ep.appleUrl)}" class="btn btn-apple" target="_blank" rel="noopener">🍎 Apple Podcasts</a>` : ''}
+              ${ep.spotifyUrl ? `<a href="${htmlEscape(ep.spotifyUrl)}" class="btn btn-spotify" target="_blank" rel="noopener">🎵 Spotify</a>` : ''}
+            </div>
+          </div>` : ''}
         </div>
 
         <section class="detail-section">

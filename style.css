@@ -641,6 +641,47 @@ section {
   pointer-events: none;
 }
 
+/* Listen buttons on detail pages */
+.listen-buttons {
+  margin-top: 1.5rem;
+}
+
+.listen-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.listen-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn-apple {
+  background: linear-gradient(135deg, #fc3c44, #a32a2f);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(252, 60, 68, 0.25);
+}
+
+.btn-apple:hover {
+  box-shadow: 0 12px 32px rgba(252, 60, 68, 0.4);
+}
+
+.btn-spotify {
+  background: linear-gradient(135deg, #1db954, #1ed760);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(29, 185, 84, 0.25);
+}
+
+.btn-spotify:hover {
+  box-shadow: 0 12px 32px rgba(29, 185, 84, 0.4);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .header-inner {

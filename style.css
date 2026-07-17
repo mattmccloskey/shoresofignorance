@@ -467,10 +467,6 @@ section {
   font-size: 1rem;
 }
 
-.detail-header .btn-primary {
-  margin-top: 0.5rem;
-}
-
 .detail-section {
   margin-bottom: 3rem;
   padding-bottom: 2rem;
@@ -659,11 +655,21 @@ section {
 .listen-row {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.75rem;
 }
 
+.listen-row .btn {
+  flex: 1 1 0;
+  height: 52px;
+  line-height: 1;
+  white-space: nowrap;
+  text-align: center;
+  justify-content: center;
+}
+
 .btn-apple {
-  background: linear-gradient(135deg, #fc3c44, #a32a2f);
+  background: linear-gradient(135deg, #fc3c44 0%, #f94e8a 100%);
   color: #fff;
   box-shadow: 0 8px 24px rgba(252, 60, 68, 0.25);
 }
@@ -673,7 +679,7 @@ section {
 }
 
 .btn-spotify {
-  background: linear-gradient(135deg, #1db954, #1ed760);
+  background: linear-gradient(135deg, #1db954 0%, #1ed760 50%, #2ebd9d 100%);
   color: #fff;
   box-shadow: 0 8px 24px rgba(29, 185, 84, 0.25);
 }

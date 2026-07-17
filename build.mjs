@@ -18,6 +18,7 @@ const INDEX_PATH = './index.html';
 const EPISODES_JSON = './episodes.json';
 const EPISODES_DIR = './episodes';
 const ASSETS_DIR = './assets';
+const SITEMAP_PATH = './sitemap.xml';
 const OG_WIDTH = 1200;
 const OG_HEIGHT = 630;
 
@@ -37,6 +38,10 @@ function formatDate(date) {
     day: 'numeric',
     year: 'numeric',
   });
+}
+
+function toISODate(dateStr) {
+  return new Date(dateStr).toISOString().split('T')[0];
 }
 
 function truncate(text, maxChars = 220) {
@@ -449,6 +454,29 @@ async function main() {
 
   console.log(`Generated ${generated} pages, skipped ${skipped} (up-to-date).`);
   console.log(`Generated ${ogGenerated} OG images, skipped ${ogSkipped} (up-to-date).`);
+
+  // Generate sitemap.xml
+  const latestDateISO = toISODate(latest.date);
+  const sitemapEntries = [
+    { loc: 'https://shoresofignorance.com/', lastmod: latestDateISO, priority: '1.0' },
+    ...episodes
+      .filter(ep => ep.number !== 0)
+      .sort((a, b) => a.number - b.number)
+      .map(ep => ({
+        loc: `https://shoresofignorance.com/episodes/${ep.number}/`,
+        lastmod: toISODate(ep.date),
+        priority: '0.8',
+      })),
+  ];
+
+  const urlEntries = sitemapEntries
+    .map(e => `  <url>\n    <loc>${e.loc}</loc>\n    <lastmod>${e.lastmod}</lastmod>\n    <priority>${e.priority}</priority>\n  </url>`)
+    .join('\n');
+
+  const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urlEntries}\n</urlset>\n`;
+
+  await writeFile(SITEMAP_PATH, sitemapXml, 'utf8');
+  console.log(`Generated ${SITEMAP_PATH} with ${sitemapEntries.length} URLs.`);
 }
 
 main().catch((err) => {

@@ -148,19 +148,39 @@ function parseShowNotes(content) {
     factChecks: [],
   };
 
-  // Extract resources from "## Resources" or "### Resources Mentioned" sections
+  // Extract resources from "## Resources" section (includes subsections like ### Books & Authors)
   const resourcesMatch = content.match(/##\s*Resources?[\s\S]*?(?=\n##\s|##\s*$|$)/i);
   if (resourcesMatch) {
     const block = resourcesMatch[0];
-    // Match bullet items with bold titles anywhere in the resources block
-    const itemRe = /^[-•]\s*\*\*(.+?)\*\*(?:\s*—\s*|\s*-\s*|\s*)?(.*)$/gm;
-    let m;
-    while ((m = itemRe.exec(block)) !== null) {
-      const title = m[1].trim();
-      let rest = m[2].trim();
-      const urlMatch = rest.match(/(https?:\/\/[^\s)]+)/);
+    // Split into bullet items. Each item starts with a bullet and may continue across lines
+    // until the next bullet or end of block.
+    const items = block.split(/^[-•]\s*/m).slice(1);
+    for (const item of items) {
+      const lines = item.split('\n').map(l => l.trim()).filter(Boolean);
+      if (lines.length === 0) continue;
+
+      // First line should have a bold title: **Title** — description
+      const titleMatch = lines[0].match(/^\*\*(.+?)\*\*(?:\s*—\s*|\s*-\s*|\s*)?(.*)$/);
+      if (!titleMatch) continue;
+
+      // Clean markdown italic markers from title
+      let title = titleMatch[1].trim().replace(/\*+/g, '').trim();
+
+      // Collect description from remaining text (including continuation lines)
+      let description = titleMatch[2].trim();
+      for (let i = 1; i < lines.length; i++) {
+        const line = lines[i];
+        if (line.match(/^###\s/)) continue;
+        description += (description ? ' ' : '') + line;
+      }
+
+      // Extract URL from description
+      const urlMatch = description.match(/(https?:\/\/[^\s)]+)/);
       const url = urlMatch ? urlMatch[1] : '';
-      const description = rest.replace(/https?:\/\/[^\s)]+/, '').replace(/^[-—]\s*/, '').trim();
+      description = description.replace(/https?:\/\/[^\s)]+/, '').replace(/\*+/g, '').replace(/\s+/g, ' ').trim();
+      // Remove leading em-dash or hyphen if present
+      description = description.replace(/^[-—]\s*/, '').trim();
+
       sections.resources.push({ title, description, url });
     }
   }
@@ -301,7 +321,7 @@ ${quoteCards}
   let resourcesHtml = '';
   if (content.resources && content.resources.length > 0) {
     const resourceItems = content.resources.map(r => {
-      const url = r.url ? ` <a href="${htmlEscape(r.url)}" target="_blank" rel="noopener">${htmlEscape(r.url)}</a>` : '';
+      const url = r.url ? ` <a href="${htmlEscape(r.url)}" target="_blank" rel="noopener">Link ↗</a>` : '';
       return `            <li>
               <strong>${htmlEscape(r.title)}</strong>${r.description ? ` — ${htmlEscape(r.description)}` : ''}${url}
             </li>`;
@@ -481,6 +501,10 @@ async function main() {
   // Generate episode detail pages
   console.log('Generating episode detail pages...');
   for (const ep of episodes) {
+    if (ep.number === 0) {
+      console.log(`  → skipping episode with no number: ${ep.fullTitle}`);
+      continue;
+    }
     const files = await findContentFiles(ep.number);
     const content = {
       fullDescription: ep.description,

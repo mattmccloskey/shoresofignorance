@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "sync": "node sync-episodes.mjs",
-    "build": "node build.mjs"
+    "build": "node build.mjs",
+    "verify": "node verify-build.mjs"
   },
   "devDependencies": {
     "sharp": "^0.35.3"

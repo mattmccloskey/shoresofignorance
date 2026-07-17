@@ -295,7 +295,7 @@ function buildOgSvg({ title, number }) {
   const lineHeight = fontSize * 1.25;
   const titleBlockHeight = lines.length * lineHeight;
   const badgeSize = 140;
-  const gap = 36;
+  const gap = 64;
   const subtitleSize = 28;
   const totalHeight = badgeSize + gap + titleBlockHeight + gap + subtitleSize;
   const startY = (OG_HEIGHT - totalHeight) / 2 + badgeSize + gap;

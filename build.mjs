@@ -295,10 +295,11 @@ function buildOgSvg({ title, number }) {
   const lineHeight = fontSize * 1.25;
   const titleBlockHeight = lines.length * lineHeight;
   const badgeSize = 140;
-  const gap = 64;
+  const badgeGap = 96;
+  const titleGap = 32;
   const subtitleSize = 28;
-  const totalHeight = badgeSize + gap + titleBlockHeight + gap + subtitleSize;
-  const startY = (OG_HEIGHT - totalHeight) / 2 + badgeSize + gap;
+  const totalHeight = badgeSize + badgeGap + titleBlockHeight + titleGap + subtitleSize;
+  const startY = (OG_HEIGHT - totalHeight) / 2 + badgeSize + badgeGap;
 
   const titleTspans = lines
     .map((line, i) => `      <tspan x="600" dy="${i === 0 ? 0 : lineHeight}">${escapeXml(line)}</tspan>`)
@@ -315,7 +316,7 @@ function buildOgSvg({ title, number }) {
     </linearGradient>
   </defs>
   <rect width="${OG_WIDTH}" height="${OG_HEIGHT}" fill="url(#bgGrad${uid})"/>
-  <g transform="translate(${600 - badgeSize / 2}, ${startY - badgeSize - gap})">
+  <g transform="translate(${600 - badgeSize / 2}, ${startY - badgeSize - badgeGap})">
     <svg width="${badgeSize}" height="${badgeSize}" viewBox="0 0 307 307">
       <defs>
         <linearGradient id="paint0_${uid}" x1="15350" y1="0" x2="15350" y2="30700" gradientUnits="userSpaceOnUse">
@@ -340,7 +341,7 @@ function buildOgSvg({ title, number }) {
   <text x="600" y="${startY}" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="${fontSize}" font-weight="700" fill="#e6e1dc">
 ${titleTspans}
   </text>
-  <text x="600" y="${startY + titleBlockHeight + gap}" text-anchor="middle" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="${subtitleSize}" font-weight="500" fill="#8b8680" letter-spacing="3">
+  <text x="600" y="${startY + titleBlockHeight + titleGap}" text-anchor="middle" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="${subtitleSize}" font-weight="500" fill="#8b8680" letter-spacing="3">
     EPISODE ${number} — SHORES OF IGNORANCE
   </text>
 </svg>`;

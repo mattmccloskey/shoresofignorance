@@ -6464,28 +6464,8 @@
     "keyQuotes": [
       {
         "text": "\"The past is forgiven, the present is full of power, and the future is full of hope.\"",
-        "speaker": "Matt, [05:36] (quoting Streams in the Desert)",
-        "timestamp": ""
-      },
-      {
-        "text": "\"Truth is conforming oneself to reality. So many of us don't want to conform to reality. We want reality to conform to us. And reality doesn't do that.\"",
-        "speaker": "Matt",
-        "timestamp": "21:29"
-      },
-      {
-        "text": "\"Wisdom is ultimately humility. Wisdom is, I don't know the right answer.\"",
-        "speaker": "Matt",
-        "timestamp": "49:11"
-      },
-      {
-        "text": "\"You can't define it ahead of time. Life is an adventure. It has to be lived that way.\"",
-        "speaker": "Matt",
-        "timestamp": "71:10"
-      },
-      {
-        "text": "\"Anything that's good is good because of love. And someone who loves something wants to talk about it and share about it. It's an act of worship.\"",
-        "speaker": "Matt",
-        "timestamp": "68:05"
+        "speaker": "Matt (quoting Streams in the Desert)",
+        "timestamp": "05:36"
       },
       {
         "text": "\"Sometimes you need to go and spend time away from people and with God. And other times you need to be with people and participate in that.\"",
@@ -6493,9 +6473,29 @@
         "timestamp": "13:19"
       },
       {
+        "text": "\"Truth is conforming oneself to reality. So many of us don't want to conform to reality. We want reality to conform to us. And reality doesn't do that.\"",
+        "speaker": "Matt",
+        "timestamp": "21:29"
+      },
+      {
         "text": "\"If you don't have something greater to reference, it really boils down to power.\"",
         "speaker": "Michael",
         "timestamp": "37:11"
+      },
+      {
+        "text": "\"Wisdom is ultimately humility. Wisdom is, I don't know the right answer.\"",
+        "speaker": "Matt",
+        "timestamp": "49:11"
+      },
+      {
+        "text": "\"Anything that's good is good because of love. And someone who loves something wants to talk about it and share about it. It's an act of worship.\"",
+        "speaker": "Matt",
+        "timestamp": "68:05"
+      },
+      {
+        "text": "\"You can't define it ahead of time. Life is an adventure. It has to be lived that way.\"",
+        "speaker": "Matt",
+        "timestamp": "71:10"
       }
     ],
     "resources": [
@@ -6595,6 +6595,6 @@
         "body": "Matt mentioned going to church for the first time in a decade. Follow up on that experience."
       }
     ],
-    "updatedAt": "2026-07-23T15:30:52.696Z"
+    "updatedAt": "2026-07-23T15:41:34.433Z"
   }
 ]

@@ -120,9 +120,10 @@ ${resourceItems}
         : statusLower.includes('disputed') || statusLower.includes('unverified') || statusLower.includes('incorrect') || statusLower.includes('false')
         ? 'status-disputed'
         : 'status-neutral';
+      const explanationHtml = f.explanation ? `\n              <p class="fact-explanation">${htmlEscape(f.explanation)}</p>` : '';
       return `            <li>
               <p class="fact-claim">${htmlEscape(f.claim)}</p>
-              <span class="fact-status ${statusClass}">${htmlEscape(f.status)}</span>
+              <span class="fact-status ${statusClass}">${htmlEscape(f.status)}</span>${explanationHtml}
             </li>`;
     }).join('\n');
     factChecksHtml = `

@@ -177,17 +177,27 @@ function parseShowNotes(content) {
     let current = null;
     for (const line of lines) {
       if (line.match(/^##\s/)) continue;
-      const itemMatch = line.match(/^[-•]\s*[✅⚠️❌]\s*\*\*(.+?)\*\*\s*—\s*(.+)/);
+      // Match: - ✅ **Claim** — Status. Explanation...
+      const itemMatch = line.match(/^[-•]\s*([✅⚠️❌])\s*\*\*(.+?)\*\*\s*—\s*(.+)/);
       if (itemMatch) {
         if (current) sections.factChecks.push(current);
-        const claim = itemMatch[1].trim();
-        const rest = itemMatch[2].trim();
-        const statusMatch = rest.match(/\*\*Status:\*\*\s*(.+)/i) || rest.match(/Status:\s*(.+)/i);
-        let status = statusMatch ? statusMatch[1].trim() : rest;
+        const emoji = itemMatch[1].trim();
+        const claim = itemMatch[2].trim();
+        const rest = itemMatch[3].trim();
+        // Status is the first sentence/word before any period that looks like an explanation
+        // Split on first period followed by space, but keep "e.g." and "i.e." and "vs." and abbreviations
+        let status = rest;
+        let explanation = '';
+        const splitMatch = rest.match(/^(.+?)(?:\.(?![a-z]\.)\s+)(.+)$/);
+        if (splitMatch) {
+          status = splitMatch[1].trim();
+          explanation = splitMatch[2].trim();
+        }
         status = status.replace(/\*\*/g, '').trim();
-        current = { claim, status };
+        current = { claim, status, explanation };
       } else if (current && line.trim() && !line.match(/^[-•]\s/)) {
-        current.status += ' ' + line.trim();
+        // Continuation of explanation
+        current.explanation += ' ' + line.trim();
       }
     }
     if (current) sections.factChecks.push(current);

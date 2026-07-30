@@ -6665,10 +6665,118 @@
         "timestamp": "37:11"
       }
     ],
-    "resources": [],
-    "factChecks": [],
-    "futureThreads": [],
-    "updatedAt": "2026-07-30T01:58:06.112Z"
+    "resources": [
+      {
+        "title": "Streams in the Desert (daily devotional)",
+        "description": "Daily devotional quoted by Matt",
+        "url": "https://www.amazon.com/Streams-Desert-366-Daily-Devotional/dp/0310353684"
+      },
+      {
+        "title": "The Old Man and the Sea by Ernest Hemingway",
+        "description": "Novel referenced in discussion",
+        "url": "https://www.amazon.com/Old-Man-Sea-Ernest-Hemingway/dp/0684801221"
+      },
+      {
+        "title": "Book of Job (Bible)",
+        "description": "Biblical book referenced",
+        "url": "https://www.biblegateway.com/passage/?search=Job+38&version=ESV"
+      },
+      {
+        "title": "Matthew 7 (Sermon on the Mount)",
+        "description": "Log and speck, pearls before swine",
+        "url": "https://www.biblegateway.com/passage/?search=Matthew+7&version=ESV"
+      },
+      {
+        "title": "Declaration of Independence",
+        "description": "Referenced on unalienable rights",
+        "url": "https://www.archives.gov/founding-docs/declaration-transcript"
+      },
+      {
+        "title": "Goodhart's Law",
+        "description": "Economic principle referenced by Matt",
+        "url": "https://en.wikipedia.org/wiki/Goodhart%27s_law"
+      },
+      {
+        "title": "Roma Craft Tobac",
+        "description": "Cigar company mentioned",
+        "url": "https://romacrafttobac.com"
+      },
+      {
+        "title": "Karl Marx - 'Religion is the opium of the people'",
+        "description": "Quote from Critique of Hegel's Philosophy of Right (1843)",
+        "url": "https://en.wikipedia.org/wiki/Opium_of_the_people"
+      },
+      {
+        "title": "Kulaks / Soviet famine",
+        "description": "Dekulakization and the Holodomor",
+        "url": "https://en.wikipedia.org/wiki/Dekulakization"
+      },
+      {
+        "title": "Indexicality (philosophy)",
+        "description": "Philosophical concept discussed",
+        "url": "https://en.wikipedia.org/wiki/Indexicality"
+      }
+    ],
+    "factChecks": [
+      {
+        "claim": "Summer solstice 2026 was June 20-21",
+        "status": "Verified",
+        "explanation": "Michael said 'end of June,' close enough."
+      },
+      {
+        "claim": "Marx wrote 'Religion is the opium of the people' in Critique of Hegel's Philosophy of Right (1843)",
+        "status": "Verified",
+        "explanation": ""
+      },
+      {
+        "claim": "Dekulakization under Stalin led to the Holodomor famine (1932-1933)",
+        "status": "Verified",
+        "explanation": "Matt referenced kulaks being eliminated and subsequent famine."
+      },
+      {
+        "claim": "Matthew 7 contains both the log/speck passage (7:3-5) and pearls before swine (7:6)",
+        "status": "Verified",
+        "explanation": ""
+      },
+      {
+        "claim": "Goodhart's Law: 'When a measure becomes a target, it ceases to be a good measure.'",
+        "status": "Verified",
+        "explanation": "Matt referenced this correctly."
+      },
+      {
+        "claim": "The Declaration of Independence states rights are 'unalienable' and 'endowed by their Creator.'",
+        "status": "Verified",
+        "explanation": ""
+      },
+      {
+        "claim": "Michael said '52 states' when discussing federalism.",
+        "status": "Disputed",
+        "explanation": "The US has 50 states. Minor slip."
+      }
+    ],
+    "futureThreads": [
+      {
+        "title": "Introspection vs Engagement",
+        "body": "The tension between introspection and engagement with others. When is each season appropriate?"
+      },
+      {
+        "title": "Michael's 20-year anniversary with Medici",
+        "body": "What does the next decade look like?"
+      },
+      {
+        "title": "Socialist/communist ideas among young people",
+        "body": "Deeper dive on the rise of these ideas."
+      },
+      {
+        "title": "Indexicality in art and music",
+        "body": "More to explore with AI-generated content."
+      },
+      {
+        "title": "Matt's church experience",
+        "body": "Matt mentioned going to church for the first time in a decade. Follow up on that experience."
+      }
+    ],
+    "updatedAt": "2026-07-30T03:47:00.000Z"
   },
   {
     "number": 289,

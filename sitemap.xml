@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://shoresofignorance.com/</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-06</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
@@ -1313,6 +1313,11 @@
   <url>
     <loc>https://shoresofignorance.com/episodes/289/</loc>
     <lastmod>2026-07-30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://shoresofignorance.com/episodes/290/</loc>
+    <lastmod>2026-08-06</lastmod>
     <priority>0.8</priority>
   </url>
 </urlset>

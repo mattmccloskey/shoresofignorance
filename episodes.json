@@ -635,12 +635,135 @@
     "url": "https://soundcloud.com/shoresofignorance/ep-29",
     "appleUrl": null,
     "spotifyUrl": null,
-    "fullDescription": "Seek and you shall find. Ask and you shall receive. You might hear these phrases and dismiss them as a petition to the supernatural, but the ideas seem to be woven into the fabric of our consciousness, science, and even…",
-    "keyQuotes": [],
-    "resources": [],
-    "factChecks": [],
+    "fullDescription": "Matt and Michael mark eight years of the podcast with a question someone recently asked Michael. Does the devil exist? What follows is a winding conversation through evil, morality, materialism, and the logic of the cross. They explore why Western culture has lost touch with the concept of evil, how political contradictions reveal our moral confusion, and why the devil's greatest trick might be making himself disappear from the conversation entirely. Drawing on prison interviews, biblical texts, Solzhenitsyn, Scott Peck, and even Thanos, they land on a surprising conclusion. The devil is real, but he's not who we think he is. He's the spirit of self-justification, the voice that says \"I am enough.\" And we all hear it.",
+    "keyQuotes": [
+      {
+        "text": "\"A lot of people talk about whether or not God exists. Nobody really ever talks about whether or not the devil exists, which is kind of a neat trick, isn't it, that Satan pulls — nobody's arguing about him.\"",
+        "speaker": "Matt",
+        "timestamp": "02:01"
+      },
+      {
+        "text": "\"The line between good and evil is drawn right down the heart of every man.\"",
+        "speaker": "Matt (quoting Solzhenitsyn)",
+        "timestamp": "21:48"
+      },
+      {
+        "text": "\"Evil is the arrogance that says, 'I know best.' Evil is the arrogance that says, 'I am enough.' It is the opposite of the humility that must come along with the engagement of good.\"",
+        "speaker": "Matt",
+        "timestamp": "55:50"
+      },
+      {
+        "text": "\"The explanatory ability of the cross convinces me. There's nothing that explains the world around me more clearly than Jesus and the cross.\"",
+        "speaker": "Michael",
+        "timestamp": "64:27"
+      },
+      {
+        "text": "\"Something outside of the system came into the system to demonstrate itself. But it also tells you the truth that you are insufficient. And it's like, oh, of course, because I feel insufficient. I am insufficient.\"",
+        "speaker": "Michael",
+        "timestamp": "80:15"
+      }
+    ],
+    "resources": [
+      {
+        "title": "M. Scott Peck",
+        "description": "People of the Lie (book about evil and exorcism, referenced by Matt)",
+        "url": ""
+      },
+      {
+        "title": "Aleksandr Solzhenitsyn",
+        "description": "\"The line between good and evil is drawn down the heart of every man\" (quoted multiple times)",
+        "url": ""
+      },
+      {
+        "title": "John Lennox",
+        "description": "Mathematician who debated scientists about the explanatory power of faith (referenced by Michael)",
+        "url": ""
+      },
+      {
+        "title": "Kurt Gödel",
+        "description": "Incompleteness theorem: math cannot prove itself, something must exist outside the system (discussed ~77:20)",
+        "url": ""
+      },
+      {
+        "title": "Veritasium",
+        "description": "YouTube episode on Gödel's incompleteness theorem (mentioned by Matt)",
+        "url": ""
+      },
+      {
+        "title": "Teresa of Avila",
+        "description": "\"I do not love God. I do not even want to love God. But I want to want to love God\" (quoted ~52:21)",
+        "url": ""
+      },
+      {
+        "title": "Galatians 2:20",
+        "description": "\"It is no longer I who live, but Christ who lives in me\" (quoted by Michael ~53:07)",
+        "url": ""
+      },
+      {
+        "title": "Romans 1:20",
+        "description": "\"Since the beginning of time, God's invisible qualities... have been clearly seen\" (quoted by Michael ~79:21)",
+        "url": ""
+      },
+      {
+        "title": "Thanos / Avengers: Infinity War",
+        "description": "Used as example of someone who thinks he's doing good while perpetrating evil (~25:10)",
+        "url": ""
+      },
+      {
+        "title": "The Joker (Dark Knight)",
+        "description": "Ultimate nihilist who \"just wants to watch the world burn\" (~29:00)",
+        "url": ""
+      },
+      {
+        "title": "Cain and Abel",
+        "description": "Genesis story about evil crouching at the door (~44:00)",
+        "url": ""
+      },
+      {
+        "title": "Toy Story",
+        "description": "Sid, the toy-destroying kid, as example of childhood sadism (~27:00)",
+        "url": ""
+      },
+      {
+        "title": "SpaceX booster catch",
+        "description": "Used as example of collective spirit/spirit of celebration (~13:15)",
+        "url": ""
+      },
+      {
+        "title": "Jeffrey Dahmer",
+        "description": "Referenced in discussion about evil and followers (~10:00)",
+        "url": ""
+      }
+    ],
+    "factChecks": [
+      {
+        "claim": "\"Solzhenitsyn said the line between good and evil is drawn down the heart of every man\"",
+        "status": "Verified",
+        "explanation": "From *The Gulag Archipelago*."
+      },
+      {
+        "claim": "\"Teresa of Avila said 'I want to want to love God'\"",
+        "status": "Verified",
+        "explanation": "Matt corrects himself from a previous episode where he misattributed this to Mother Teresa."
+      },
+      {
+        "claim": "\"Gödel proved math cannot explain itself\"",
+        "status": "Verified",
+        "explanation": "Gödel's incompleteness theorems (1931) demonstrate that any consistent formal system cannot prove its own consistency."
+      },
+      {
+        "claim": "\"Christ descended into hell\"",
+        "status": "Biblical reference to 1 Peter 3:19 and Apostles' Creed",
+        "explanation": "Matt notes that \"hell is outside of time\" is an interpretation he heard recently, not established doctrine."
+      },
+      {
+        "claim": "\"Mormonism teaches Jesus and Satan are brothers\"",
+        "status": "Verified",
+        "explanation": "This is a documented LDS teaching, though Matt and Michael note they may be oversimplifying."
+      }
+    ],
     "futureThreads": [],
-    "updatedAt": "2026-07-17T02:42:47.134Z"
+    "updatedAt": "2026-08-06T01:41:27.761Z"
   },
   {
     "number": 30,
@@ -6665,118 +6788,10 @@
         "timestamp": "37:11"
       }
     ],
-    "resources": [
-      {
-        "title": "Streams in the Desert (daily devotional)",
-        "description": "Daily devotional quoted by Matt",
-        "url": "https://www.amazon.com/Streams-Desert-366-Daily-Devotional/dp/0310353684"
-      },
-      {
-        "title": "The Old Man and the Sea by Ernest Hemingway",
-        "description": "Novel referenced in discussion",
-        "url": "https://www.amazon.com/Old-Man-Sea-Ernest-Hemingway/dp/0684801221"
-      },
-      {
-        "title": "Book of Job (Bible)",
-        "description": "Biblical book referenced",
-        "url": "https://www.biblegateway.com/passage/?search=Job+38&version=ESV"
-      },
-      {
-        "title": "Matthew 7 (Sermon on the Mount)",
-        "description": "Log and speck, pearls before swine",
-        "url": "https://www.biblegateway.com/passage/?search=Matthew+7&version=ESV"
-      },
-      {
-        "title": "Declaration of Independence",
-        "description": "Referenced on unalienable rights",
-        "url": "https://www.archives.gov/founding-docs/declaration-transcript"
-      },
-      {
-        "title": "Goodhart's Law",
-        "description": "Economic principle referenced by Matt",
-        "url": "https://en.wikipedia.org/wiki/Goodhart%27s_law"
-      },
-      {
-        "title": "Roma Craft Tobac",
-        "description": "Cigar company mentioned",
-        "url": "https://romacrafttobac.com"
-      },
-      {
-        "title": "Karl Marx - 'Religion is the opium of the people'",
-        "description": "Quote from Critique of Hegel's Philosophy of Right (1843)",
-        "url": "https://en.wikipedia.org/wiki/Opium_of_the_people"
-      },
-      {
-        "title": "Kulaks / Soviet famine",
-        "description": "Dekulakization and the Holodomor",
-        "url": "https://en.wikipedia.org/wiki/Dekulakization"
-      },
-      {
-        "title": "Indexicality (philosophy)",
-        "description": "Philosophical concept discussed",
-        "url": "https://en.wikipedia.org/wiki/Indexicality"
-      }
-    ],
-    "factChecks": [
-      {
-        "claim": "Summer solstice 2026 was June 20-21",
-        "status": "Verified",
-        "explanation": "Michael said 'end of June,' close enough."
-      },
-      {
-        "claim": "Marx wrote 'Religion is the opium of the people' in Critique of Hegel's Philosophy of Right (1843)",
-        "status": "Verified",
-        "explanation": ""
-      },
-      {
-        "claim": "Dekulakization under Stalin led to the Holodomor famine (1932-1933)",
-        "status": "Verified",
-        "explanation": "Matt referenced kulaks being eliminated and subsequent famine."
-      },
-      {
-        "claim": "Matthew 7 contains both the log/speck passage (7:3-5) and pearls before swine (7:6)",
-        "status": "Verified",
-        "explanation": ""
-      },
-      {
-        "claim": "Goodhart's Law: 'When a measure becomes a target, it ceases to be a good measure.'",
-        "status": "Verified",
-        "explanation": "Matt referenced this correctly."
-      },
-      {
-        "claim": "The Declaration of Independence states rights are 'unalienable' and 'endowed by their Creator.'",
-        "status": "Verified",
-        "explanation": ""
-      },
-      {
-        "claim": "Michael said '52 states' when discussing federalism.",
-        "status": "Disputed",
-        "explanation": "The US has 50 states. Minor slip."
-      }
-    ],
-    "futureThreads": [
-      {
-        "title": "Introspection vs Engagement",
-        "body": "The tension between introspection and engagement with others. When is each season appropriate?"
-      },
-      {
-        "title": "Michael's 20-year anniversary with Medici",
-        "body": "What does the next decade look like?"
-      },
-      {
-        "title": "Socialist/communist ideas among young people",
-        "body": "Deeper dive on the rise of these ideas."
-      },
-      {
-        "title": "Indexicality in art and music",
-        "body": "More to explore with AI-generated content."
-      },
-      {
-        "title": "Matt's church experience",
-        "body": "Matt mentioned going to church for the first time in a decade. Follow up on that experience."
-      }
-    ],
-    "updatedAt": "2026-07-30T03:47:00.000Z"
+    "resources": [],
+    "factChecks": [],
+    "futureThreads": [],
+    "updatedAt": "2026-08-06T01:41:27.699Z"
   },
   {
     "number": 289,
@@ -6961,5 +6976,144 @@
     ],
     "futureThreads": [],
     "updatedAt": "2026-07-30T03:36:01.220Z"
+  },
+  {
+    "number": 290,
+    "title": "Does the Devil Exist?",
+    "date": "Thu, 06 Aug 2026 01:40:39 +0000",
+    "durationMinutes": 87,
+    "description": "Matt and Michael mark eight years of the podcast with a question someone recently asked Michael. Does the devil exist? What follows is a winding conversation through evil, morality, materialism, and the logic of the…",
+    "url": "https://soundcloud.com/shoresofignorance/ep-290-does-the-devil-exist",
+    "appleUrl": null,
+    "spotifyUrl": null,
+    "fullDescription": "Matt and Michael mark eight years of the podcast with a question someone recently asked Michael. Does the devil exist? What follows is a winding conversation through evil, morality, materialism, and the logic of the cross. They explore why Western culture has lost touch with the concept of evil, how political contradictions reveal our moral confusion, and why the devil's greatest trick might be making himself disappear from the conversation entirely. Drawing on prison interviews, biblical texts, Solzhenitsyn, Scott Peck, and even Thanos, they land on a surprising conclusion. The devil is real, but he's not who we think he is. He's the spirit of self-justification, the voice that says \"I am enough.\" And we all hear it.",
+    "keyQuotes": [
+      {
+        "text": "\"A lot of people talk about whether or not God exists. Nobody really ever talks about whether or not the devil exists, which is kind of a neat trick, isn't it, that Satan pulls — nobody's arguing about him.\"",
+        "speaker": "Matt",
+        "timestamp": "02:01"
+      },
+      {
+        "text": "\"The line between good and evil is drawn right down the heart of every man.\"",
+        "speaker": "Matt (quoting Solzhenitsyn)",
+        "timestamp": "21:48"
+      },
+      {
+        "text": "\"Evil is the arrogance that says, 'I know best.' Evil is the arrogance that says, 'I am enough.' It is the opposite of the humility that must come along with the engagement of good.\"",
+        "speaker": "Matt",
+        "timestamp": "55:50"
+      },
+      {
+        "text": "\"The explanatory ability of the cross convinces me. There's nothing that explains the world around me more clearly than Jesus and the cross.\"",
+        "speaker": "Michael",
+        "timestamp": "64:27"
+      },
+      {
+        "text": "\"Something outside of the system came into the system to demonstrate itself. But it also tells you the truth that you are insufficient. And it's like, oh, of course, because I feel insufficient. I am insufficient.\"",
+        "speaker": "Michael",
+        "timestamp": "80:15"
+      }
+    ],
+    "resources": [
+      {
+        "title": "M. Scott Peck",
+        "description": "People of the Lie (book about evil and exorcism, referenced by Matt)",
+        "url": ""
+      },
+      {
+        "title": "Aleksandr Solzhenitsyn",
+        "description": "\"The line between good and evil is drawn down the heart of every man\" (quoted multiple times)",
+        "url": ""
+      },
+      {
+        "title": "John Lennox",
+        "description": "Mathematician who debated scientists about the explanatory power of faith (referenced by Michael)",
+        "url": ""
+      },
+      {
+        "title": "Kurt Gödel",
+        "description": "Incompleteness theorem: math cannot prove itself, something must exist outside the system (discussed ~77:20)",
+        "url": ""
+      },
+      {
+        "title": "Veritasium",
+        "description": "YouTube episode on Gödel's incompleteness theorem (mentioned by Matt)",
+        "url": ""
+      },
+      {
+        "title": "Teresa of Avila",
+        "description": "\"I do not love God. I do not even want to love God. But I want to want to love God\" (quoted ~52:21)",
+        "url": ""
+      },
+      {
+        "title": "Galatians 2:20",
+        "description": "\"It is no longer I who live, but Christ who lives in me\" (quoted by Michael ~53:07)",
+        "url": ""
+      },
+      {
+        "title": "Romans 1:20",
+        "description": "\"Since the beginning of time, God's invisible qualities... have been clearly seen\" (quoted by Michael ~79:21)",
+        "url": ""
+      },
+      {
+        "title": "Thanos / Avengers: Infinity War",
+        "description": "Used as example of someone who thinks he's doing good while perpetrating evil (~25:10)",
+        "url": ""
+      },
+      {
+        "title": "The Joker (Dark Knight)",
+        "description": "Ultimate nihilist who \"just wants to watch the world burn\" (~29:00)",
+        "url": ""
+      },
+      {
+        "title": "Cain and Abel",
+        "description": "Genesis story about evil crouching at the door (~44:00)",
+        "url": ""
+      },
+      {
+        "title": "Toy Story",
+        "description": "Sid, the toy-destroying kid, as example of childhood sadism (~27:00)",
+        "url": ""
+      },
+      {
+        "title": "SpaceX booster catch",
+        "description": "Used as example of collective spirit/spirit of celebration (~13:15)",
+        "url": ""
+      },
+      {
+        "title": "Jeffrey Dahmer",
+        "description": "Referenced in discussion about evil and followers (~10:00)",
+        "url": ""
+      }
+    ],
+    "factChecks": [
+      {
+        "claim": "\"Solzhenitsyn said the line between good and evil is drawn down the heart of every man\"",
+        "status": "Verified",
+        "explanation": "From *The Gulag Archipelago*."
+      },
+      {
+        "claim": "\"Teresa of Avila said 'I want to want to love God'\"",
+        "status": "Verified",
+        "explanation": "Matt corrects himself from a previous episode where he misattributed this to Mother Teresa."
+      },
+      {
+        "claim": "\"Gödel proved math cannot explain itself\"",
+        "status": "Verified",
+        "explanation": "Gödel's incompleteness theorems (1931) demonstrate that any consistent formal system cannot prove its own consistency."
+      },
+      {
+        "claim": "\"Christ descended into hell\"",
+        "status": "Biblical reference to 1 Peter 3:19 and Apostles' Creed",
+        "explanation": "Matt notes that \"hell is outside of time\" is an interpretation he heard recently, not established doctrine."
+      },
+      {
+        "claim": "\"Mormonism teaches Jesus and Satan are brothers\"",
+        "status": "Verified",
+        "explanation": "This is a documented LDS teaching, though Matt and Michael note they may be oversimplifying."
+      }
+    ],
+    "futureThreads": [],
+    "updatedAt": "2026-08-06T01:41:27.694Z"
   }
 ]

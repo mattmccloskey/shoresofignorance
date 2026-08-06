@@ -7017,59 +7017,73 @@
     "resources": [
       {
         "title": "M. Scott Peck — People of the Lie",
-        "url": "https://www.amazon.com/People-Lie-Hope-Healing-Evil/dp/0684848597"
+        "url": "https://www.amazon.com/People-Lie-Hope-Healing-Evil/dp/0684848597",
+        "description": "People of the Lie (book about evil and exorcism, referenced by Matt)"
       },
       {
         "title": "Aleksandr Solzhenitsyn — The Gulag Archipelago",
-        "url": "https://www.amazon.com/Gulag-Archipelago-1918-1956-Abridged/dp/0061253804"
+        "url": "https://www.amazon.com/Gulag-Archipelago-1918-1956-Abridged/dp/0061253804",
+        "description": "\"The line between good and evil is drawn down the heart of every man\" (quoted multiple times)"
       },
       {
         "title": "John Lennox",
-        "url": "https://www.instagram.com/reel/DbTzmq0ShJA/"
+        "url": "https://www.instagram.com/reel/DbTzmq0ShJA/",
+        "description": "Mathematician who debated scientists about the explanatory power of faith (referenced by Michael)"
       },
       {
         "title": "Kurt Gödel — Incompleteness Theorem",
-        "url": "https://en.wikipedia.org/wiki/G%C3%B6del%27s_incompleteness_theorems"
+        "url": "https://en.wikipedia.org/wiki/G%C3%B6del%27s_incompleteness_theorems",
+        "description": "Incompleteness theorem: math cannot prove itself, something must exist outside the system (discussed ~77:20)"
       },
       {
         "title": "Veritasium — Gödel's Incompleteness Theorem",
-        "url": "https://www.youtube.com/watch?v=HeQX2HjkcNo"
+        "url": "https://www.youtube.com/watch?v=HeQX2HjkcNo",
+        "description": "YouTube episode on Gödel's incompleteness theorem (mentioned by Matt)"
       },
       {
         "title": "Teresa of Avila",
-        "url": "https://en.wikipedia.org/wiki/Teresa_of_%C3%81vila"
+        "url": "https://en.wikipedia.org/wiki/Teresa_of_%C3%81vila",
+        "description": "\"I do not love God. I do not even want to love God. But I want to want to love God\" (quoted ~52:21)"
       },
       {
         "title": "Galatians 2:20",
-        "url": "https://www.biblegateway.com/passage/?search=Galatians+2%3A20"
+        "url": "https://www.biblegateway.com/passage/?search=Galatians+2%3A20",
+        "description": "\"It is no longer I who live, but Christ who lives in me\" (quoted by Michael ~53:07)"
       },
       {
         "title": "Romans 1:20",
-        "url": "https://www.biblegateway.com/passage/?search=Romans+1%3A20"
+        "url": "https://www.biblegateway.com/passage/?search=Romans+1%3A20",
+        "description": "\"Since the beginning of time, God's invisible qualities... have been clearly seen\" (quoted by Michael ~79:21)"
       },
       {
         "title": "Thanos / Avengers: Infinity War",
-        "url": "https://www.imdb.com/title/tt4154756/"
+        "url": "https://www.imdb.com/title/tt4154756/",
+        "description": "Used as example of someone who thinks he's doing good while perpetrating evil (~25:10)"
       },
       {
         "title": "The Joker (The Dark Knight)",
-        "url": "https://www.imdb.com/title/tt0468569/"
+        "url": "https://www.imdb.com/title/tt0468569/",
+        "description": "Ultimate nihilist who \"just wants to watch the world burn\" (~29:00)"
       },
       {
         "title": "Cain and Abel (Genesis 4)",
-        "url": "https://www.biblegateway.com/passage/?search=Genesis+4"
+        "url": "https://www.biblegateway.com/passage/?search=Genesis+4",
+        "description": "Genesis story about evil crouching at the door (~44:00)"
       },
       {
         "title": "Toy Story",
-        "url": "https://www.imdb.com/title/tt0114709/"
+        "url": "https://www.imdb.com/title/tt0114709/",
+        "description": "Sid, the toy-destroying kid, as example of childhood sadism (~27:00)"
       },
       {
         "title": "SpaceX Booster Catch",
-        "url": "https://www.youtube.com/results?search_query=spacex+booster+catch+chopsticks"
+        "url": "https://www.youtube.com/results?search_query=spacex+booster+catch+chopsticks",
+        "description": "Used as example of collective spirit/spirit of celebration (~13:15)"
       },
       {
         "title": "Jeffrey Dahmer",
-        "url": "https://en.wikipedia.org/wiki/Jeffrey_Dahmer"
+        "url": "https://en.wikipedia.org/wiki/Jeffrey_Dahmer",
+        "description": "Referenced in discussion about evil and followers (~10:00)"
       }
     ],
     "factChecks": [
@@ -7100,6 +7114,6 @@
       }
     ],
     "futureThreads": [],
-    "updatedAt": "2026-08-06T02:05:09.784Z"
+    "updatedAt": "2026-08-06T15:18:31.010810+00:00"
   }
 ]

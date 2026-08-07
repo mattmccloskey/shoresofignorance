@@ -319,6 +319,12 @@ async function main() {
       content.nextTopics = parseNextEpisode(neContent);
     }
 
+    // Read transcript content if available
+    let transcriptText = null;
+    if (files.transcript) {
+      transcriptText = await readFile(files.transcript, 'utf8');
+    }
+
     // Filter out "Open Questions" from future threads
     content.nextTopics = content.nextTopics.filter(
       t => !t.title.toLowerCase().includes('open question')
@@ -338,6 +344,7 @@ async function main() {
       resources: content.resources,
       factChecks: content.factChecks,
       futureThreads: content.nextTopics,
+      transcript: transcriptText,
       updatedAt: new Date().toISOString(),
     };
 
@@ -359,6 +366,7 @@ async function main() {
         resources: prev.resources,
         factChecks: prev.factChecks,
         futureThreads: prev.futureThreads,
+        transcript: prev.transcript,
       });
       const currStr = JSON.stringify({
         title: entry.title,
@@ -373,6 +381,7 @@ async function main() {
         resources: entry.resources,
         factChecks: entry.factChecks,
         futureThreads: entry.futureThreads,
+        transcript: entry.transcript,
       });
       if (prevStr !== currStr) {
         changedCount++;

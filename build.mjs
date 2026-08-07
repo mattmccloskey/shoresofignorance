@@ -70,6 +70,28 @@ function renderCard(ep) {
         </article>`;
 }
 
+function cleanTranscript(raw) {
+  // Replace speaker labels: A: → Matt:, B: → Michael:
+  // Also handle existing Matt:/Michael: labels (pass through)
+  let text = raw;
+  // Replace A: and B: at start of line or after timestamp like [0:00]
+  text = text.replace(/^([\[\d:.,\s\]]*)A:\s*/gm, '$1Matt: ');
+  text = text.replace(/^([\[\d:.,\s\]]*)B:\s*/gm, '$1Michael: ');
+  // Strip markdown formatting
+  text = text.replace(/\*\*(.+?)\*\*/g, '$1');
+  text = text.replace(/\*(.+?)\*/g, '$1');
+  text = text.replace(/_(.+?)_/g, '$1');
+  text = text.replace(/`(.+?)`/g, '$1');
+  return text.trim();
+}
+
+function transcriptToHtml(raw) {
+  const cleaned = cleanTranscript(raw);
+  // Split into paragraphs on double newlines or single newlines (transcripts use single newlines per line)
+  const lines = cleaned.split(/\n/).filter(l => l.trim());
+  return lines.map(l => `      <p>${htmlEscape(l.trim())}</p>`).join('\n');
+}
+
 function renderDetailPage(ep) {
   const date = formatDate(ep.date);
   const meta = `Episode ${ep.number} · ${date}${ep.durationMinutes ? ' · ' + ep.durationMinutes + ' min' : ''}`;
@@ -152,6 +174,49 @@ ${topicItems}
         </section>`;
   }
 
+  let transcriptHtml = '';
+  if (ep.transcript) {
+    transcriptHtml = `
+        <section class="detail-section">
+          <h2>Transcript</h2>
+          <details class="transcript-details">
+            <summary>Read full transcript</summary>
+            <div class="transcript-content">
+${transcriptToHtml(ep.transcript)}
+            </div>
+          </details>
+        </section>`;
+  }
+
+  // Build JSON-LD structured data for this episode
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "PodcastEpisode",
+    "name": ep.title,
+    "url": `https://shoresofignorance.com/episodes/${ep.number}/`,
+    "description": ogDesc,
+    "datePublished": new Date(ep.date).toISOString(),
+    "episodeNumber": ep.number,
+    ...(ep.durationMinutes ? { "duration": `PT${ep.durationMinutes}M` } : {}),
+    "image": ogImage,
+    "isAccessibleForFree": true,
+    "partOfSeries": {
+      "@type": "PodcastSeries",
+      "name": "Shores of Ignorance",
+      "url": "https://shoresofignorance.com"
+    },
+    "author": [
+      { "@type": "Person", "name": "Matt McCloskey" },
+      { "@type": "Person", "name": "Michael Vaclav" }
+    ],
+    ...(ep.url ? {
+      "associatedMedia": {
+        "@type": "MediaObject",
+        "contentUrl": ep.url
+      }
+    } : {})
+  };
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -159,6 +224,7 @@ ${topicItems}
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${htmlEscape(ep.title)} — Shores of Ignorance Ep ${ep.number}</title>
   <meta name="description" content="${htmlEscape(ogDesc)}">
+  <link rel="canonical" href="https://shoresofignorance.com/episodes/${ep.number}/">
   <meta property="og:title" content="${htmlEscape(ep.title)} — Shores of Ignorance Ep ${ep.number}">
   <meta property="og:description" content="${htmlEscape(ogDesc)}">
   <meta property="og:image" content="${ogImage}">
@@ -170,6 +236,7 @@ ${topicItems}
   <meta name="twitter:title" content="${htmlEscape(ep.title)} — Shores of Ignorance Ep ${ep.number}">
   <meta name="twitter:description" content="${htmlEscape(ogDesc)}">
   <meta name="twitter:image" content="${ogImage}">
+  <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -225,7 +292,7 @@ ${topicItems}
             <p>${htmlEscape(ep.fullDescription || ep.description)}</p>
           </div>
         </section>
-${quotesHtml}${resourcesHtml}${factChecksHtml}${nextEpisodeHtml}
+${quotesHtml}${resourcesHtml}${factChecksHtml}${nextEpisodeHtml}${transcriptHtml}
       </div>
     </article>
   </main>

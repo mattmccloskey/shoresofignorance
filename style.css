@@ -688,6 +688,36 @@ section {
   box-shadow: 0 12px 32px rgba(29, 185, 84, 0.4);
 }
 
+/* Transcript */
+.transcript-details {
+  margin-top: 0.5em;
+}
+
+.transcript-details summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-weight: 500;
+  padding: 0.5em 0;
+}
+
+.transcript-details summary:hover {
+  text-decoration: underline;
+}
+
+.transcript-content {
+  margin-top: 1em;
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 1em;
+  line-height: 1.7;
+}
+
+.transcript-content p {
+  margin-bottom: 0.75em;
+  font-size: 0.95em;
+  color: var(--text-muted);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .header-inner {

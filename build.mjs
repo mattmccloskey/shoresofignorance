@@ -289,7 +289,7 @@ ${transcriptToHtml(ep.transcript)}
         <section class="detail-section">
           <h2>About This Episode</h2>
           <div class="detail-description">
-            <p>${htmlEscape(ep.fullDescription || ep.description)}</p>
+            ${(ep.fullDescription || ep.description).split(/\n\n+/).map(p => `<p>${htmlEscape(p.trim())}</p>`).join('\n            ')}
           </div>
         </section>
 ${quotesHtml}${resourcesHtml}${factChecksHtml}${nextEpisodeHtml}${transcriptHtml}

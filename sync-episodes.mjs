@@ -77,12 +77,11 @@ async function findContentFiles(epNumber) {
 }
 
 function extractDescriptionParagraph(text) {
-  const parts = text.split(/\n\n/);
-  const firstPara = parts[0]?.trim() || '';
-  if (firstPara.length < 100 && parts[1] && !parts[1].startsWith('Chapters:')) {
-    return (firstPara + ' ' + parts[1]).trim();
-  }
-  return firstPara;
+  // Grab all paragraphs before the Chapters:/Resources:/Fact Checks:/Find us/Tags: sections
+  const stopPattern = /^(Chapters:|Resources:|Fact Checks:|Find us|Tags:)/m;
+  const stopMatch = text.match(stopPattern);
+  const body = stopMatch ? text.slice(0, stopMatch.index) : text;
+  return body.trim();
 }
 
 function parseKeyQuotes(content) {

@@ -13,6 +13,7 @@
 import { readFile, writeFile, mkdir, stat } from 'node:fs/promises';
 import { join } from 'node:path';
 import sharp from 'sharp';
+import { createHash } from 'node:crypto';
 
 const INDEX_PATH = './index.html';
 const EPISODES_JSON = './episodes.json';
@@ -450,8 +451,8 @@ function buildOgSvg({ title, number }) {
     .map((line, i) => `      <tspan x="600" dy="${i === 0 ? 0 : lineHeight}">${escapeXml(line)}</tspan>`)
     .join('\n');
 
-  // Use a unique gradient ID per render to avoid collisions if we ever batch in parallel
-  const uid = Math.random().toString(36).slice(2, 8);
+  // Deterministic gradient ID (unique per episode) so identical inputs produce identical SVG
+  const uid = `ep${String(number).replace(/[^A-Za-z0-9]/g, '')}`;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${OG_WIDTH}" height="${OG_HEIGHT}" viewBox="0 0 ${OG_WIDTH} ${OG_HEIGHT}">
   <defs>
@@ -492,12 +493,33 @@ ${titleTspans}
 </svg>`;
 }
 
-async function generateOgImage(ep, outPath) {
+// Bump to force regeneration of every OG image (e.g. renderer changes not visible in the SVG).
+const OG_TEMPLATE_VERSION = 1;
+const OG_MANIFEST_PATH = join(EPISODES_DIR, 'og-manifest.json');
+
+function ogInputHash(svg) {
+  return createHash('sha256').update(`v${OG_TEMPLATE_VERSION}\n${svg}`).digest('hex').slice(0, 16);
+}
+
+async function loadOgManifest() {
+  try { return JSON.parse(await readFile(OG_MANIFEST_PATH, 'utf8')); } catch { return {}; }
+}
+
+// Returns true if the PNG was written, false if the existing file was kept.
+async function generateOgImage(ep, outPath, manifest) {
   const svg = buildOgSvg({ title: ep.title, number: ep.number });
-  await sharp(Buffer.from(svg))
-    .resize(OG_WIDTH, OG_HEIGHT)
-    .png()
-    .toFile(outPath);
+  const hash = ogInputHash(svg);
+  const key = String(ep.number);
+  let exists = true;
+  try { await stat(outPath); } catch { exists = false; }
+  if (exists && manifest[key] === hash) return false;
+  // Existing image with no manifest entry (pre-manifest image): adopt it as-is rather than
+  // re-encoding, since font rendering differs across machines. Inputs changes after this regen.
+  if (exists && !(key in manifest)) { manifest[key] = hash; return false; }
+  const png = await sharp(Buffer.from(svg)).resize(OG_WIDTH, OG_HEIGHT).png().toBuffer();
+  await writeFile(outPath, png);
+  manifest[key] = hash;
+  return true;
 }
 
 async function main() {
@@ -560,6 +582,7 @@ async function main() {
   let skipped = 0;
   let ogGenerated = 0;
   let ogSkipped = 0;
+  const ogManifest = await loadOgManifest();
 
   for (const ep of episodes) {
     if (ep.number === 0) {
@@ -569,7 +592,6 @@ async function main() {
 
     const epDir = join(EPISODES_DIR, String(ep.number));
     const needsPage = await shouldRegenerate(ep, epDir, 'index.html');
-    const needsOg = await shouldRegenerate(ep, epDir, 'og-image.png');
 
     await mkdir(epDir, { recursive: true });
 
@@ -582,9 +604,8 @@ async function main() {
       skipped++;
     }
 
-    if (needsOg) {
-      const ogPath = join(epDir, 'og-image.png');
-      await generateOgImage(ep, ogPath);
+    const ogPath = join(epDir, 'og-image.png');
+    if (await generateOgImage(ep, ogPath, ogManifest)) {
       ogGenerated++;
       console.log(`  → episodes/${ep.number}/og-image.png`);
     } else {
@@ -593,6 +614,8 @@ async function main() {
   }
 
   console.log(`Generated ${generated} pages, skipped ${skipped} (up-to-date).`);
+  const sortedManifest = Object.fromEntries(Object.entries(ogManifest).sort(([a], [b]) => Number(a) - Number(b)));
+  await writeFile(OG_MANIFEST_PATH, JSON.stringify(sortedManifest, null, 2) + '\n', 'utf8');
   console.log(`Generated ${ogGenerated} OG images, skipped ${ogSkipped} (up-to-date).`);
 
   // Generate sitemap.xml

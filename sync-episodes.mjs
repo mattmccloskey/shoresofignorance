@@ -14,7 +14,8 @@ import { readFile, writeFile, readdir, stat } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const RSS_URL = 'https://feeds.soundcloud.com/users/soundcloud:users:500028120/sounds.rss';
-const PODCAST_DIR = '/Users/gk/.openclaw/workspace/podcast';
+const PODCAST_DIR = process.env.PODCAST_DIR || '/workspace/podcast';
+const RSS_FILE = process.env.RSS_FILE || ''; // optional local RSS fixture for testing
 const EPISODES_JSON = './episodes.json';
 
 function decodeEntities(str) {
@@ -60,18 +61,23 @@ function truncate(text, maxChars = 220) {
 }
 
 async function findContentFiles(epNumber) {
-  const files = await readdir(PODCAST_DIR).catch(() => []);
+  // Supports both flat layout (PODCAST_DIR/Ep_XXX_*.ext) and per-episode folders (PODCAST_DIR/Ep_XXX/Ep_XXX_*.ext).
   const prefix = `Ep_${epNumber}`;
   const result = {};
-  for (const f of files) {
-    if (!f.startsWith(prefix)) continue;
-    if (f.endsWith('_Show_Notes.md')) result.showNotes = join(PODCAST_DIR, f);
-    else if (f.endsWith('_Key_Quotes.md')) result.keyQuotes = join(PODCAST_DIR, f);
-    else if (f.endsWith('_Description.txt')) result.description = join(PODCAST_DIR, f);
-    else if (f.endsWith('_Next_Episode.md')) result.nextEpisode = join(PODCAST_DIR, f);
-    else if (f.endsWith('_Transcript.txt')) result.transcript = join(PODCAST_DIR, f);
-    else if (f.endsWith('_notes.md') && !result.showNotes) result.showNotes = join(PODCAST_DIR, f);
-    else if (f.endsWith('.txt') && !f.includes('_') && !result.description) result.description = join(PODCAST_DIR, f);
+  const dirs = [join(PODCAST_DIR, prefix), PODCAST_DIR];
+  for (const dir of dirs) {
+    const files = await readdir(dir).catch(() => []);
+    for (const f of files) {
+      // Require a delimiter after the number so Ep_26 doesn't match Ep_265 files.
+      if (!(f.startsWith(prefix + '_') || f.startsWith(prefix + '.'))) continue;
+      const full = join(dir, f);
+      if (f.endsWith('_Show_Notes.md')) result.showNotes ??= full;
+      else if (f.endsWith('_Key_Quotes.md')) result.keyQuotes ??= full;
+      else if (f.endsWith('_Description.txt')) result.description ??= full;
+      else if (f.endsWith('_Next_Episode.md')) result.nextEpisode ??= full;
+      else if (f.endsWith('_Transcript.txt')) result.transcript ??= full;
+      else if (f.endsWith('_notes.md')) result.showNotes ??= full;
+    }
   }
   return result;
 }
@@ -260,6 +266,27 @@ async function fetchEpisodes() {
   return items;
 }
 
+function isEmpty(v) {
+  return v === undefined || v === null || v === '' || (Array.isArray(v) && v.length === 0) ||
+    (typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length === 0);
+}
+
+// Exported for tests: keep every non-empty value from prev, fill only empty/missing ones from fresh.
+export function mergeEpisode(prev, fresh) {
+  if (!prev) return { ...fresh };
+  const out = { ...prev };
+  for (const [k, v] of Object.entries(fresh)) {
+    if (k === 'updatedAt') continue;
+    // Never add empty placeholder keys to existing entries (keeps the diff clean).
+    if (isEmpty(out[k]) && !isEmpty(v)) out[k] = v;
+  }
+  // A short RSS-truncated fullDescription should be replaced by a real one from local files.
+  if (prev.fullDescription && prev.fullDescription === prev.description && fresh.fullDescription && fresh.fullDescription !== fresh.description) {
+    out.fullDescription = fresh.fullDescription;
+  }
+  return out;
+}
+
 async function main() {
   console.log('Fetching RSS feed...');
   const rssEpisodes = await fetchEpisodes();
@@ -274,7 +301,8 @@ async function main() {
     existing = [];
   }
 
-  const existingMap = new Map(existing.map(e => [e.number, e]));
+  const existingMap = new Map(existing.map(e => [Number(e.number), e]));
+  const seen = new Set();
   const updated = [];
   let changedCount = 0;
   let newCount = 0;
@@ -285,7 +313,8 @@ async function main() {
       continue;
     }
 
-    const prev = existingMap.get(ep.number);
+    const prev = existingMap.get(Number(ep.number));
+    seen.add(Number(ep.number));
     const files = await findContentFiles(ep.number);
 
     const content = {
@@ -329,23 +358,26 @@ async function main() {
       t => !t.title.toLowerCase().includes('open question')
     );
 
-    const entry = {
+    const fresh = {
       number: ep.number,
       title: ep.title,
       date: ep.date,
       durationMinutes: ep.durationMinutes,
       description: ep.description,
       url: ep.url,
-      appleUrl: prev?.appleUrl ?? null,
-      spotifyUrl: prev?.spotifyUrl ?? null,
+      appleUrl: null,
+      spotifyUrl: null,
       fullDescription: content.fullDescription,
       keyQuotes: content.quotes,
       resources: content.resources,
       factChecks: content.factChecks,
       futureThreads: content.nextTopics,
+      chapters: [],
       transcript: transcriptText,
-      updatedAt: new Date().toISOString(),
     };
+    // Non-destructive merge: existing non-empty values always win; only missing/empty fields are filled.
+    const entry = mergeEpisode(prev, fresh);
+    entry.updatedAt = new Date().toISOString();
 
     if (!prev) {
       newCount++;
@@ -366,6 +398,7 @@ async function main() {
         factChecks: prev.factChecks,
         futureThreads: prev.futureThreads,
         transcript: prev.transcript,
+        chapters: prev.chapters,
       });
       const currStr = JSON.stringify({
         title: entry.title,
@@ -381,6 +414,7 @@ async function main() {
         factChecks: entry.factChecks,
         futureThreads: entry.futureThreads,
         transcript: entry.transcript,
+        chapters: entry.chapters,
       });
       if (prevStr !== currStr) {
         changedCount++;
@@ -395,15 +429,20 @@ async function main() {
     updated.push(entry);
   }
 
+  // Keep existing episodes that are not (or no longer) in the RSS feed.
+  for (const prev of existing) {
+    if (!seen.has(Number(prev.number))) updated.push(prev);
+  }
+
   // Sort by episode number ascending
-  updated.sort((a, b) => a.number - b.number);
+  updated.sort((a, b) => Number(a.number) - Number(b.number));
 
   await writeFile(EPISODES_JSON, JSON.stringify(updated, null, 2), 'utf8');
   console.log(`\nWrote ${updated.length} episodes to ${EPISODES_JSON}`);
   console.log(`  New: ${newCount}, Updated: ${changedCount}, Unchanged: ${updated.length - newCount - changedCount}`);
 }
 
-main().catch((err) => {
+if (import.meta.url === `file://${process.argv[1]}`) main().catch((err) => {
   console.error(err);
   process.exit(1);
 });

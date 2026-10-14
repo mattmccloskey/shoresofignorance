@@ -85,11 +85,45 @@ function cleanTranscript(raw) {
   return text.trim();
 }
 
-function transcriptToHtml(raw) {
+function tsToSeconds(ts) {
+  const parts = String(ts).replace(/[\[\]]/g, '').trim().split(':').map(Number);
+  if (parts.some(n => Number.isNaN(n))) return null;
+  return parts.reduce((acc, n) => acc * 60 + n, 0);
+}
+
+function chapterAnchorId(ts) {
+  return 'ch-' + String(ts).replace(/[^0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+// anchors: optional Map of transcript line index -> anchor id (only used when chapters exist,
+// so pages without chapters render byte-identical output).
+function transcriptToHtml(raw, anchors) {
   const cleaned = cleanTranscript(raw);
   // Split into paragraphs on double newlines or single newlines (transcripts use single newlines per line)
   const lines = cleaned.split(/\n/).filter(l => l.trim());
-  return lines.map(l => `      <p>${htmlEscape(l.trim())}</p>`).join('\n');
+  return lines.map((l, i) => {
+    const id = anchors && anchors.get(i);
+    return id ? `      <p id="${id}">${htmlEscape(l.trim())}</p>` : `      <p>${htmlEscape(l.trim())}</p>`;
+  }).join('\n');
+}
+
+// For each chapter, find the first transcript line starting at or after the chapter time.
+function chapterTranscriptAnchors(raw, chapters) {
+  const lines = cleanTranscript(raw).split(/\n/).filter(l => l.trim());
+  const times = lines.map(l => { const m = l.trim().match(/^\[(\d+(?::\d+){1,2})\]/); return m ? tsToSeconds(m[1]) : null; });
+  const anchors = new Map();
+  const ids = new Map();
+  for (const c of chapters) {
+    const sec = tsToSeconds(c.timestamp);
+    if (sec === null) continue;
+    let idx = times.findIndex(t => t !== null && t >= sec);
+    if (idx === -1) continue;
+    if (anchors.has(idx)) { ids.set(c.timestamp, anchors.get(idx)); continue; }
+    const id = chapterAnchorId(c.timestamp);
+    anchors.set(idx, id);
+    ids.set(c.timestamp, id);
+  }
+  return { anchors, ids };
 }
 
 function renderDetailPage(ep) {
@@ -174,6 +208,27 @@ ${topicItems}
         </section>`;
   }
 
+  const hasChapters = Array.isArray(ep.chapters) && ep.chapters.length > 0;
+  const chapterLinks = hasChapters && ep.transcript ? chapterTranscriptAnchors(ep.transcript, ep.chapters) : null;
+
+  let chaptersHtml = '';
+  if (hasChapters) {
+    const chapterItems = ep.chapters.map(c => {
+      const id = chapterLinks && chapterLinks.ids.get(c.timestamp);
+      const ts = id
+        ? `<a href="#${id}" class="chapter-time" data-chapter-link>${htmlEscape(c.timestamp)}</a>`
+        : `<span class="chapter-time">${htmlEscape(c.timestamp)}</span>`;
+      return `            <li>${ts} <span class="chapter-title">${htmlEscape(c.title)}</span></li>`;
+    }).join('\n');
+    chaptersHtml = `
+        <section class="detail-section">
+          <h2>Chapters</h2>
+          <ol class="chapter-list">
+${chapterItems}
+          </ol>
+        </section>`;
+  }
+
   let transcriptHtml = '';
   if (ep.transcript) {
     transcriptHtml = `
@@ -182,10 +237,19 @@ ${topicItems}
           <details class="transcript-details">
             <summary>Read full transcript</summary>
             <div class="transcript-content">
-${transcriptToHtml(ep.transcript)}
+${transcriptToHtml(ep.transcript, chapterLinks ? chapterLinks.anchors : undefined)}
             </div>
           </details>
-        </section>`;
+        </section>${chapterLinks ? `
+        <script>
+          document.querySelectorAll('[data-chapter-link]').forEach(function (a) {
+            a.addEventListener('click', function () {
+              var d = document.querySelector('.transcript-details');
+              if (d) d.open = true;
+            });
+          });
+          if (location.hash.indexOf('#ch-') === 0) { var d = document.querySelector('.transcript-details'); if (d) { d.open = true; var el = document.querySelector(location.hash); if (el) el.scrollIntoView(); } }
+        </script>` : ''}`;
   }
 
   // Build JSON-LD structured data for this episode
@@ -292,7 +356,7 @@ ${transcriptToHtml(ep.transcript)}
             ${(ep.fullDescription || ep.description).split(/\n\n+/).map(p => `<p>${htmlEscape(p.trim())}</p>`).join('\n            ')}
           </div>
         </section>
-${quotesHtml}${resourcesHtml}${factChecksHtml}${nextEpisodeHtml}${transcriptHtml}
+${chaptersHtml}${quotesHtml}${resourcesHtml}${factChecksHtml}${nextEpisodeHtml}${transcriptHtml}
       </div>
     </article>
   </main>

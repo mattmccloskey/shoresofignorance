@@ -778,3 +778,49 @@ section {
     text-align: center;
   }
 }
+
+/* Chapters */
+.chapter-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 720px;
+}
+
+.chapter-list li {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.chapter-list li:last-child {
+  border-bottom: none;
+}
+
+.chapter-time {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  min-width: 4.5rem;
+  color: var(--text);
+}
+
+a.chapter-time {
+  text-decoration: none;
+  color: var(--accent-end);
+}
+
+a.chapter-time:hover {
+  text-decoration: underline;
+}
+
+.chapter-title {
+  color: var(--text);
+}
+
+.transcript-content p[id] {
+  scroll-margin-top: 6rem;
+}

@@ -342,7 +342,7 @@ ${transcriptToHtml(ep.transcript, chapterLinks ? chapterLinks.anchors : undefine
     <article class="episode-detail">
       <div class="container">
         <div class="detail-header">
-          <a href="../../#episodes" class="back-link">← All Episodes</a>
+          <a href="../" class="back-link">← All Episodes</a>
           <p class="eyebrow">Episode ${ep.number}</p>
           <h1 class="episode-title">${htmlEscape(ep.title)}</h1>
           <p class="episode-meta">${htmlEscape(meta)}</p>

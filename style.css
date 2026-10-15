@@ -561,7 +561,7 @@ section {
 
 .resource-list a {
   color: var(--accent);
-  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 .resource-list a:hover {

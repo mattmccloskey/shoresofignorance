@@ -52,10 +52,10 @@ function truncate(text, maxChars = 220) {
   return (lastSpace > 0 ? trimmed.slice(0, lastSpace) : trimmed) + '…';
 }
 
-function renderCard(ep) {
+function renderCard(ep, base = './episodes/') {
   const date = formatDate(ep.date);
   const meta = `Episode ${ep.number} · ${date}${ep.durationMinutes ? ' · ' + ep.durationMinutes + ' min' : ''}`;
-  const detailUrl = `./episodes/${ep.number}/`;
+  const detailUrl = `${base}${ep.number}/`;
 
   return `        <article class="episode-card">
           <div class="episode-number">${ep.number}</div>
@@ -376,6 +376,81 @@ ${chaptersHtml}${quotesHtml}${resourcesHtml}${factChecksHtml}${nextEpisodeHtml}$
 </html>`;
 }
 
+function renderAllEpisodesPage(eps) {
+  const desc = `Every episode of Shores of Ignorance — ${eps.length} conversations on theology, philosophy, culture, and the questions we keep returning to.`;
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Episodes — Shores of Ignorance</title>
+  <meta name="description" content="${htmlEscape(desc)}">
+  <link rel="canonical" href="https://shoresofignorance.com/episodes/">
+  <meta property="og:title" content="All Episodes — Shores of Ignorance">
+  <meta property="og:description" content="${htmlEscape(desc)}">
+  <meta property="og:image" content="https://shoresofignorance.com/assets/soi-hero-banner.png">
+  <meta property="og:url" content="https://shoresofignorance.com/episodes/">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="icon" href="../assets/soi-brand-icon.svg" type="image/svg+xml">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1XMD3938JX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1XMD3938JX');
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../" class="logo">
+        <img src="../assets/soi-badge-white.svg" alt="Shores of Ignorance">
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="../#latest" class="latest">Latest</a>
+        <a href="./">Episodes</a>
+        <a href="../#about">About</a>
+        <a href="../#subscribe">Subscribe</a>
+        <a href="../#find-us">Find Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="episodes" id="episodes">
+      <div class="container">
+        <div class="section-header">
+          <a href="../" class="back-link">← Home</a>
+          <h2>All Episodes</h2>
+          <p>${eps.length} conversations on theology, philosophy, culture, and the questions we keep returning to.</p>
+        </div>
+        <div class="episode-list">
+${eps.map(ep => renderCard(ep, './')).join('\n')}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="year"></span> Shores of Ignorance. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="mailto:hello@shoresofignorance.com">hello@shoresofignorance.com</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../main.js"></script>
+</body>
+</html>
+`;
+}
+
 // ── OG Image Generation ──
 
 let _badgeSvg = null;
@@ -522,18 +597,20 @@ async function main() {
   const latest = sortedDesc[0];
   const recent = sortedDesc.slice(0, 6);
 
+  const latestUrl = `./episodes/${latest.number}/`;
+
   // Update index.html
   let html = await readFile(INDEX_PATH, 'utf8');
 
   html = html.replace(
-    /(<p class="eyebrow" id="latest-eyebrow">)[^<]*(<\/p>)/,
-    `$1Latest Episode: ${htmlEscape(latest.title)}$2`
+    /(<p class="eyebrow" id="latest-eyebrow">)[\s\S]*?(<\/p>)/,
+    `$1<a href="${latestUrl}" class="accent-link">Latest Episode: ${htmlEscape(latest.title)}</a>$2`
   );
 
   const latestMeta = `Episode ${latest.number} · ${formatDate(latest.date)}${latest.durationMinutes ? ' · ' + latest.durationMinutes + ' min' : ''}`;
   html = html.replace(
     /(<p class="episode-meta" id="latest-meta">)[\s\S]*?(<\/p>)/,
-    `$1${htmlEscape(latestMeta)}$2`
+    `$1<a href="${latestUrl}" class="accent-link">${htmlEscape(latestMeta)}</a>$2`
   );
 
   const playHref = latest.url || '#';
@@ -558,10 +635,26 @@ async function main() {
     `<!-- EPISODES_START -->\n${cardsHtml}\n        <!-- EPISODES_END -->`
   );
 
+  if (!html.includes('id="see-all-episodes"')) {
+    html = html.replace(
+      /(<!-- EPISODES_END -->\s*<\/div>)/,
+      `$1\n        <p class="see-all"><a href="./episodes/" class="accent-link" id="see-all-episodes">See all episodes →</a></p>`
+    );
+  }
+
   html = html.replace(/\s*<!-- Episodes rendered from episodes\.json -->/, '');
 
   await writeFile(INDEX_PATH, html, 'utf8');
   console.log(`Updated ${INDEX_PATH} with ${episodes.length} episodes (${recent.length} shown).`);
+
+  // Generate all-episodes list page (episodes/index.html)
+  const allHtml = renderAllEpisodesPage(sortedDesc.filter(ep => ep.number !== 0));
+  let existingAll = null;
+  try { existingAll = await readFile(join(EPISODES_DIR, 'index.html'), 'utf8'); } catch {}
+  if (existingAll !== allHtml) {
+    await writeFile(join(EPISODES_DIR, 'index.html'), allHtml, 'utf8');
+    console.log('  → episodes/index.html');
+  }
 
   // Generate episode detail pages + OG images
   console.log('Generating episode detail pages...');
@@ -612,6 +705,7 @@ async function main() {
   const latestDateISO = toISODate(latest.date);
   const sitemapEntries = [
     { loc: 'https://shoresofignorance.com/', lastmod: latestDateISO, priority: '1.0' },
+    { loc: 'https://shoresofignorance.com/episodes/', lastmod: latestDateISO, priority: '0.9' },
     ...episodes
       .filter(ep => ep.number !== 0)
       .sort((a, b) => a.number - b.number)

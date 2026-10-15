@@ -829,3 +829,21 @@ a.chapter-time:hover {
 .transcript-content p[id] {
   scroll-margin-top: 6rem;
 }
+
+/* Accent links (homepage latest-episode links, see-all) */
+.accent-link {
+  color: var(--accent);
+  transition: color 0.2s ease;
+}
+.eyebrow .accent-link {
+  color: var(--accent-start);
+}
+.accent-link:hover {
+  color: var(--accent-end);
+  text-decoration: underline;
+}
+.see-all {
+  margin-top: 2rem;
+  text-align: center;
+  font-weight: 600;
+}

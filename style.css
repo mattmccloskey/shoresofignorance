@@ -810,7 +810,7 @@ section {
 
 a.chapter-time {
   text-decoration: none;
-  color: var(--accent-end);
+  color: #BF432D; /* burnt orange from the logo */
 }
 
 a.chapter-time:hover {

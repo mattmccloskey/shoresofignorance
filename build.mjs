@@ -34,7 +34,7 @@ function htmlEscape(str) {
 
 function formatDate(date) {
   return new Date(date).toLocaleDateString('en-US', {
-    timeZone: 'UTC',
+    timeZone: 'America/Chicago',
     month: 'long',
     day: 'numeric',
     year: 'numeric',
@@ -629,7 +629,7 @@ async function main() {
     }
   }
 
-  const cardsHtml = recent.map(renderCard).join('\n');
+  const cardsHtml = recent.map(ep => renderCard(ep)).join('\n');
   html = html.replace(
     /<!-- EPISODES_START -->[\s\S]*?<!-- EPISODES_END -->/,
     `<!-- EPISODES_START -->\n${cardsHtml}\n        <!-- EPISODES_END -->`

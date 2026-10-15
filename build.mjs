@@ -422,7 +422,7 @@ function renderAllEpisodesPage(eps) {
   </header>
 
   <main>
-    <section class="episodes" id="episodes">
+    <section class="episodes all-episodes" id="episodes">
       <div class="container">
         <div class="section-header">
           <a href="../" class="back-link">← Home</a>

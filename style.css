@@ -847,3 +847,11 @@ a.chapter-time:hover {
   text-align: center;
   font-weight: 600;
 }
+
+/* All Episodes page: let long unbroken text (URLs in older descriptions) wrap */
+.all-episodes .episode-card > * {
+  min-width: 0;
+}
+.all-episodes .episode-info {
+  overflow-wrap: anywhere;
+}

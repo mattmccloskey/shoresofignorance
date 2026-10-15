@@ -376,19 +376,6 @@ ${chaptersHtml}${quotesHtml}${resourcesHtml}${factChecksHtml}${nextEpisodeHtml}$
 </html>`;
 }
 
-async function shouldRegenerate(ep, epDir, fileName = 'index.html') {
-  const pagePath = join(epDir, fileName);
-  try {
-    const s = await stat(pagePath);
-    const pageMtime = s.mtime.getTime();
-    const jsonUpdated = new Date(ep.updatedAt).getTime();
-    return jsonUpdated > pageMtime;
-  } catch {
-    // File doesn't exist — needs generation
-    return true;
-  }
-}
-
 // ── OG Image Generation ──
 
 let _badgeSvg = null;
@@ -591,12 +578,15 @@ async function main() {
     }
 
     const epDir = join(EPISODES_DIR, String(ep.number));
-    const needsPage = await shouldRegenerate(ep, epDir, 'index.html');
-
     await mkdir(epDir, { recursive: true });
 
-    if (needsPage) {
-      const detailHtml = renderDetailPage(ep);
+    // Render every page and write only when content changed, so any edit
+    // (links, text) is picked up without touching unchanged files.
+    const detailHtml = renderDetailPage(ep);
+    let existing = null;
+    try { existing = await readFile(join(epDir, 'index.html'), 'utf8'); } catch {}
+
+    if (existing !== detailHtml) {
       await writeFile(join(epDir, 'index.html'), detailHtml, 'utf8');
       generated++;
       console.log(`  → episodes/${ep.number}/index.html`);

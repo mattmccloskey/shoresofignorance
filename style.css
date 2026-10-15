@@ -571,8 +571,13 @@ section {
 .fact-claim {
   color: var(--text);
   font-size: 0.95rem;
+  font-weight: 700;
   margin-bottom: 0.5rem;
   line-height: 1.5;
+}
+
+.fact-explanation {
+  margin-top: 0.85rem;
 }
 
 .fact-status {

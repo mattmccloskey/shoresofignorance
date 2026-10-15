@@ -14,6 +14,12 @@ import { readFile, writeFile, mkdir, stat } from 'node:fs/promises';
 import { join } from 'node:path';
 import sharp from 'sharp';
 import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+
+// Content-based cache busting for local assets.
+const assetHash = f => createHash('sha256').update(readFileSync(f)).digest('hex').slice(0, 8);
+const CSS_V = assetHash('style.css');
+const JS_V = assetHash('main.js');
 
 const INDEX_PATH = './index.html';
 const EPISODES_JSON = './episodes.json';
@@ -305,7 +311,7 @@ ${transcriptToHtml(ep.transcript, chapterLinks ? chapterLinks.anchors : undefine
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../style.css?v=${CSS_V}">
   <link rel="icon" href="../../assets/soi-brand-icon.svg" type="image/svg+xml">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-1XMD3938JX"></script>
@@ -371,7 +377,7 @@ ${chaptersHtml}${quotesHtml}${resourcesHtml}${factChecksHtml}${nextEpisodeHtml}$
     </div>
   </footer>
 
-  <script src="../../main.js"></script>
+  <script src="../../main.js?v=${JS_V}"></script>
 </body>
 </html>`;
 }
@@ -394,7 +400,7 @@ function renderAllEpisodesPage(eps) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../style.css?v=${CSS_V}">
   <link rel="icon" href="../assets/soi-brand-icon.svg" type="image/svg+xml">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-1XMD3938JX"></script>
@@ -445,7 +451,7 @@ ${eps.map(ep => renderCard(ep, './')).join('\n')}
     </div>
   </footer>
 
-  <script src="../main.js"></script>
+  <script src="../main.js?v=${JS_V}"></script>
 </body>
 </html>
 `;
@@ -641,6 +647,10 @@ async function main() {
       `$1\n        <p class="see-all"><a href="./episodes/" class="accent-link" id="see-all-episodes">See all episodes →</a></p>`
     );
   }
+
+  // Versioned asset links (idempotent: replaces any existing ?v=)
+  html = html.replace(/(<link rel="stylesheet" href="style\.css)(\?v=[0-9a-f]*)?(")/, `$1?v=${CSS_V}$3`);
+  html = html.replace(/(<script src="main\.js)(\?v=[0-9a-f]*)?(")/, `$1?v=${JS_V}$3`);
 
   html = html.replace(/\s*<!-- Episodes rendered from episodes\.json -->/, '');
 

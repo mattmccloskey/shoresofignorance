@@ -33,3 +33,4 @@ Backfill pilot: Eps 259/266/268/269/270 transcripts + notes; verify-build newest
 episode links: +257 appleUrl, +5 spotifyUrl (133-137) — 2026-10-30T03:58:40Z
 spotify links: +257 spotifyUrl (all episodes now linked) — 2026-10-30T04:07:12Z
 descriptions: restored full RSS fullDescription for 189 eps; description renderer adds <br>/links — 2026-10-30T14:45:21Z
+descriptions: Ep 276/278/279/286 set to published RSS text; sync prefers RSS over draft Description.txt — 2026-10-30T15:00:15Z

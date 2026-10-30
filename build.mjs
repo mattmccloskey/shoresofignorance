@@ -38,6 +38,31 @@ function htmlEscape(str) {
     .replace(/'/g, '&#39;');
 }
 
+// Escape first, then turn bare URLs into links and single newlines into <br>.
+function linkifyEscaped(escaped) {
+  return escaped.replace(/https?:\/\/[^\s<]+/g, (m) => {
+    // Stop at an escaped quote/apostrophe and leave trailing punctuation outside the link.
+    const cut = m.search(/&quot;|&#39;|&lt;|&gt;/);
+    let url = cut >= 0 ? m.slice(0, cut) : m;
+    // Trailing ')' stays only when balanced, e.g. Wikipedia_(film).
+    while (/[.,;:!?)\]…]$/.test(url)) {
+      if (url.endsWith('&amp;')) { url = url.slice(0, -5); continue; }
+      const last = url.slice(-1);
+      if (last === ')' && (url.match(/\(/g) || []).length >= (url.match(/\)/g) || []).length) break;
+      url = url.slice(0, -1);
+    }
+    return `<a href="${url}" target="_blank" rel="noopener">${url}</a>` + m.slice(url.length);
+  });
+}
+
+function renderDescription(text) {
+  return text.split(/\n[ \t]*\n\s*/)
+    .map(p => p.trim())
+    .filter(Boolean)
+    .map(p => `<p>${p.split(/[ \t]*\n[ \t]*/).map(l => linkifyEscaped(htmlEscape(l))).join('<br>\n')}</p>`)
+    .join('\n            ');
+}
+
 function formatDate(date) {
   return new Date(date).toLocaleDateString('en-US', {
     timeZone: 'America/Chicago',
@@ -360,7 +385,7 @@ ${transcriptToHtml(ep.transcript, chapterLinks ? chapterLinks.anchors : undefine
         <section class="detail-section">
           <h2>About This Episode</h2>
           <div class="detail-description">
-            ${(ep.fullDescription || ep.description).split(/\n\n+/).map(p => `<p>${htmlEscape(p.trim())}</p>`).join('\n            ')}
+            ${renderDescription(ep.fullDescription || ep.description)}
           </div>
         </section>
 ${chaptersHtml}${quotesHtml}${resourcesHtml}${factChecksHtml}${nextEpisodeHtml}${transcriptHtml}

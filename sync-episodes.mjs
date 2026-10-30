@@ -237,9 +237,14 @@ function parseNextEpisode(content) {
 }
 
 async function fetchEpisodes() {
-  const res = await fetch(RSS_URL);
-  if (!res.ok) throw new Error(`RSS fetch failed: ${res.status} ${res.statusText}`);
-  const xml = await res.text();
+  let xml;
+  if (RSS_FILE) {
+    xml = await readFile(RSS_FILE, 'utf8');
+  } else {
+    const res = await fetch(RSS_URL);
+    if (!res.ok) throw new Error(`RSS fetch failed: ${res.status} ${res.statusText}`);
+    xml = await res.text();
+  }
 
   const items = [];
   const itemRegex = /<item>([\s\S]*?)<\/item>/g;
@@ -251,6 +256,8 @@ async function fetchEpisodes() {
     const pubDate = extract('pubDate', raw);
     const duration = extract('itunes:duration', raw);
     const summary = extract('itunes:summary', raw) || extract('description', raw);
+    // Full show notes exactly as published (entities decoded, line breaks kept).
+    const fullText = extract('description', raw) || extract('itunes:summary', raw);
 
     items.push({
       number: parseInt(title.match(/\bEp\.?\s*(\d+)/i)?.[1] || 0, 10),
@@ -259,6 +266,7 @@ async function fetchEpisodes() {
       date: pubDate,
       durationMinutes: parseDuration(duration),
       description: truncate(stripTags(summary)),
+      fullDescription: fullText,
       url: link,
     });
   }
@@ -271,8 +279,17 @@ function isEmpty(v) {
     (typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length === 0);
 }
 
+// True when `short` is the truncated / whitespace-collapsed RSS preview of `full`.
+export function isPreviewOf(short, full) {
+  if (!short || !full || short === full) return false;
+  const collapsed = full.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  if (short === collapsed) return true;
+  return short.endsWith('…') && collapsed.startsWith(short.slice(0, -1).trimEnd()) && short.length < full.length;
+}
+
 // Exported for tests: keep every non-empty value from prev, fill only empty/missing ones from fresh.
-export function mergeEpisode(prev, fresh) {
+// opts.fromRss: fresh.fullDescription is the full RSS text (no local Description.txt).
+export function mergeEpisode(prev, fresh, opts = {}) {
   if (!prev) return { ...fresh };
   const out = { ...prev };
   for (const [k, v] of Object.entries(fresh)) {
@@ -282,6 +299,10 @@ export function mergeEpisode(prev, fresh) {
   }
   // A short RSS-truncated fullDescription should be replaced by a real one from local files.
   if (prev.fullDescription && prev.fullDescription === prev.description && fresh.fullDescription && fresh.fullDescription !== fresh.description) {
+    out.fullDescription = fresh.fullDescription;
+  }
+  // A stored RSS preview should be replaced by the full RSS description.
+  if (opts.fromRss && isPreviewOf(prev.fullDescription, fresh.fullDescription)) {
     out.fullDescription = fresh.fullDescription;
   }
   return out;
@@ -318,7 +339,7 @@ async function main() {
     const files = await findContentFiles(ep.number);
 
     const content = {
-      fullDescription: ep.description,
+      fullDescription: ep.fullDescription || ep.description,
       quotes: [],
       resources: [],
       factChecks: [],
@@ -376,7 +397,7 @@ async function main() {
       transcript: transcriptText,
     };
     // Non-destructive merge: existing non-empty values always win; only missing/empty fields are filled.
-    const entry = mergeEpisode(prev, fresh);
+    const entry = mergeEpisode(prev, fresh, { fromRss: !files.description });
     entry.updatedAt = new Date().toISOString();
 
     if (!prev) {

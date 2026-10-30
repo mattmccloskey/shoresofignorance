@@ -500,6 +500,10 @@ section {
   margin-bottom: 0;
 }
 
+.detail-description a {
+  overflow-wrap: anywhere;
+}
+
 .quote-list {
   display: grid;
   gap: 1.25rem;

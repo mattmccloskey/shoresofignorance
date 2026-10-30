@@ -50,7 +50,7 @@ function parseDuration(iso) {
 }
 
 function cleanTitle(title) {
-  return title.replace(/^Ep\s+\d+:\s*/, '').trim();
+  return title.replace(/^Ep\.?\s*\d+:\s*/i, '').trim();
 }
 
 function truncate(text, maxChars = 220) {
@@ -253,7 +253,7 @@ async function fetchEpisodes() {
     const summary = extract('itunes:summary', raw) || extract('description', raw);
 
     items.push({
-      number: parseInt(title.match(/Ep\s+(\d+)/)?.[1] || 0, 10),
+      number: parseInt(title.match(/\bEp\.?\s*(\d+)/i)?.[1] || 0, 10),
       title: cleanTitle(title),
       fullTitle: title,
       date: pubDate,

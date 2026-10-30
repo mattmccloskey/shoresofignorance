@@ -90,6 +90,12 @@ function extractDescriptionParagraph(text) {
   return body.trim();
 }
 
+// Compare ignoring blank-line padding (SoundCloud uses U+2800 lines as spacers) and trailing spaces.
+function sameText(a, b) {
+  const norm = t => t.split('\n').map(l => l.replace(/[\s\u2800]+$/u, '')).join('\n').replace(/\n{3,}/g, '\n\n').trim();
+  return norm(a) === norm(b);
+}
+
 function parseKeyQuotes(content) {
   const quotes = [];
   const blocks = content.split(/\n{2,}/);
@@ -348,7 +354,11 @@ async function main() {
 
     if (files.description) {
       const desc = await readFile(files.description, 'utf8');
-      content.fullDescription = extractDescriptionParagraph(desc);
+      const fromFile = extractDescriptionParagraph(desc);
+      // Description.txt can be a draft (title options, markdown). When it differs from
+      // what was actually published in the RSS, prefer the published text.
+      const published = ep.fullDescription ? extractDescriptionParagraph(ep.fullDescription) : '';
+      content.fullDescription = published && !sameText(published, fromFile) ? published : fromFile;
     }
 
     if (files.keyQuotes) {

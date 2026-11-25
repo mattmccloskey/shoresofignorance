@@ -5,13 +5,16 @@
  * Reads episodes.json (the single source of truth) and bakes static HTML:
  * - Updates index.html with latest episode info and episode cards
  * - Generates per-episode detail pages in episodes/{number}/index.html
+ * - Copies only the publishable files into site/ (see site-files.mjs), which
+ *   is the folder Cloudflare serves
  *
  * This script is Cloudflare Pages compatible — it only reads files within
  * the repo (episodes.json, index.html, style.css, etc.).
  */
 
-import { readFile, writeFile, mkdir, stat } from 'node:fs/promises';
-import { join } from 'node:path';
+import { readFile, writeFile, mkdir, stat, rm, copyFile } from 'node:fs/promises';
+import { join, dirname, resolve } from 'node:path';
+import { SITE_DIR, listPublishFiles } from './site-files.mjs';
 import sharp from 'sharp';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -807,6 +810,25 @@ async function main() {
   ].join('\n');
   await writeFile('./llms.txt', llmsTxt, 'utf8');
   console.log(`Generated ./llms.txt with ${llmsLines.length} episodes.`);
+
+  await publishSite();
+}
+
+// Copy only the publishable files into SITE_DIR (what Cloudflare serves).
+// Rebuilt from scratch each time so removed files don't linger.
+async function publishSite() {
+  const siteDir = resolve(SITE_DIR);
+  if (siteDir === resolve('.') || !siteDir.startsWith(resolve('.') + '/')) {
+    throw new Error(`Refusing to publish into ${siteDir}`);
+  }
+  await rm(siteDir, { recursive: true, force: true });
+  const files = listPublishFiles();
+  for (const f of files) {
+    const dest = join(siteDir, f);
+    await mkdir(dirname(dest), { recursive: true });
+    await copyFile(f, dest);
+  }
+  console.log(`Published ${files.length} files to ./${SITE_DIR}/`);
 }
 
 main().catch((err) => {

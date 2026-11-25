@@ -759,6 +759,54 @@ async function main() {
 
   await writeFile(SITEMAP_PATH, sitemapXml, 'utf8');
   console.log(`Generated ${SITEMAP_PATH} with ${sitemapEntries.length} URLs.`);
+
+  // Generate llms.txt (answer-engine summary of the show and every episode)
+  const llmsSummary = (ep) => {
+    const text = String(ep.fullDescription || ep.description || '')
+      .replace(/<[^>]+>/g, ' ')
+      .split(/\bFind us\b/i)[0]
+      .replace(/https?:\/\/\S+/g, '')
+      .replace(/\s+-\s+(?=\s|\*|$)/g, ' ')
+      .replace(/(^|\s)\*\s+/g, '$1')
+      .replace(/\s+/g, ' ')
+      .replace(/^(this week on soi|tonight on soi)[:\s]*/i, '')
+      .trim();
+    return truncate(text, 200);
+  };
+  const llmsLines = episodes
+    .filter(ep => ep.number !== 0)
+    .sort((a, b) => b.number - a.number)
+    .map(ep => {
+      const summary = llmsSummary(ep);
+      return `- [Ep ${ep.number}: ${ep.title}](https://shoresofignorance.com/episodes/${ep.number}/)${summary ? `: ${summary}` : ''}`;
+    });
+  const llmsTxt = [
+    '# Shores of Ignorance',
+    '',
+    '> A weekly podcast where Matt McCloskey and Michael Vaclav talk about theology, philosophy, culture, and the questions we keep returning to. Recorded on Wednesday nights since 2018. Every episode page has a summary, chapters, key quotes, resources, fact checks, and a full transcript when available.',
+    '',
+    '## Hosts',
+    '',
+    '- Matt McCloskey: co-host (https://x.com/mattmccloskey)',
+    '- Michael Vaclav: co-host (https://x.com/michaelvaclav)',
+    '',
+    '## Links',
+    '',
+    '- [Website](https://shoresofignorance.com/)',
+    '- [All episodes](https://shoresofignorance.com/episodes/)',
+    '- [Apple Podcasts](https://podcasts.apple.com/us/podcast/id1438899219)',
+    '- [Spotify](https://open.spotify.com/show/2BnhB2qVLP4gdRjy7R0uo0)',
+    '- [SoundCloud](https://soundcloud.com/shoresofignorance)',
+    '- [RSS feed](https://feeds.soundcloud.com/users/soundcloud:users:500028120/sounds.rss)',
+    '- [Sitemap](https://shoresofignorance.com/sitemap.xml)',
+    '',
+    '## Episodes',
+    '',
+    ...llmsLines,
+    '',
+  ].join('\n');
+  await writeFile('./llms.txt', llmsTxt, 'utf8');
+  console.log(`Generated ./llms.txt with ${llmsLines.length} episodes.`);
 }
 
 main().catch((err) => {

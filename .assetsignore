@@ -1,0 +1,16 @@
+# Files that should never be published as site assets
+.git
+.gitignore
+.wrangler
+node_modules
+episodes.json.bak*
+*.bak*
+build.mjs
+sync-episodes.mjs
+verify-build.mjs
+package.json
+package-lock.json
+wrangler.jsonc
+deploy.log
+README.md
+episodes/og-manifest.json

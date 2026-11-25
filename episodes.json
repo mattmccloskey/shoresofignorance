@@ -24020,6 +24020,16 @@
         "title": "Young Life",
         "description": "The youth ministry Michael (25:02) went to as a kid, later seeing it as a seed that came back.",
         "url": "https://en.wikipedia.org/wiki/Young_Life"
+      },
+      {
+        "title": "The Brain on Porn (JAMA Psychiatry, 2014)",
+        "description": "Kühn and Gallinat's MRI study of 64 men linking more weekly porn hours to less right caudate gray matter. Correlational. Michael (46:48) mentions \"so many studies on, like, what porn does to the brain.\"",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/24871202/"
+      },
+      {
+        "title": "WHO ICD-11: Compulsive sexual behaviour disorder",
+        "description": "The WHO's diagnosis (6C72), classed as an impulse control disorder rather than an addiction, for the porn-and-the-brain discussion at 46:48.",
+        "url": "https://icd.who.int/browse/2026-01/mms/en#1630268048"
       }
     ],
     "factChecks": [
@@ -24077,6 +24087,11 @@
         "claim": "The Vampire Diaries has 21 seasons",
         "status": "Needs Context",
         "explanation": "Matt (73:00), talking about using entertainment to avoid the knowledge that you are not a good person, says \"just give me my Instagram reels, give me my, you know, my 21 seasons of whatever, Vampire Diaries or whatever.\" The Vampire Diaries ran 8 seasons, from 2009 to 2017. He is clearly speaking loosely."
+      },
+      {
+        "claim": "Studies show porn harms the brain and is irrefutably unhealthy",
+        "status": "Needs Context",
+        "explanation": "Michael (46:48) says there are \"so many studies on, like, what porn does to the brain\" and that it is \"kind of irrefutable\" that porn is not healthy to consume. There are real findings: Kühn and Gallinat (2014) found that more weekly hours of porn went with less gray matter in the right caudate among 64 men, and Voon et al. (2014) found that men with compulsive sexual behaviour showed drug-cue-like reward responses to explicit videos. But the studies are small and correlational, and Kühn and Gallinat note the brain differences could be a precondition rather than a result. Whether problem use is an addiction is still debated: the APA left hypersexual disorder out of DSM-5, while WHO's ICD-11 lists compulsive sexual behaviour disorder (6C72) as an impulse control disorder and says distress from moral disapproval alone does not count, so harms for heavy or compulsive users are documented but \"irrefutable\" overstates the science."
       }
     ],
     "futureThreads": [
